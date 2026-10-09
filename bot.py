@@ -22,10 +22,13 @@ CHANNEL_ID = os.environ.get("CHANNEL_ID", "@Minsknewssss")
 GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.5-flash-lite")
 MAX_POSTS_PER_RUN = int(os.environ.get("MAX_POSTS_PER_RUN", "1"))
 DRY_RUN = os.environ.get("DRY_RUN", "0") == "1"
-CLOUDFLARE_ACCOUNT_ID = os.environ.get("CLOUDFLARE_ACCOUNT_ID", "")
-CLOUDFLARE_API_TOKEN = os.environ.get("CLOUDFLARE_API_TOKEN", "")
+_raw_account = os.environ.get("CLOUDFLARE_ACCOUNT_ID", "")
+_m = re.search(r"[0-9a-fA-F]{32}", _raw_account)  # берём сам ID, даже если вставили лишнее (слэши, пробелы)
+CLOUDFLARE_ACCOUNT_ID = _m.group(0) if _m else _raw_account.strip().strip("/")
+CLOUDFLARE_API_TOKEN = os.environ.get("CLOUDFLARE_API_TOKEN", "").strip()
 IMAGE_MODE = os.environ.get("IMAGE_MODE", "ai")      # ai = иллюстрация от ИИ, none = без картинки
 SOURCE_LINK = os.environ.get("SOURCE_LINK", "1") == "1"  # добавлять ссылку на источник
+SHOW_AI_NOTE = os.environ.get("SHOW_AI_NOTE", "1") == "1"  # добавлять пометку «создано ИИ»
 AI_NOTE = "🖼 Иллюстрация создана ИИ"
 
 WATERMARK_TEXT = "Новости Минск"
@@ -313,6 +316,9 @@ def generate_image(item):
     if not (CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_API_TOKEN):
         log("Нет CLOUDFLARE_ACCOUNT_ID / CLOUDFLARE_API_TOKEN — пост будет без картинки.")
         return None
+    if not re.fullmatch(r"[0-9a-fA-F]{32}", CLOUDFLARE_ACCOUNT_ID):
+        log(f"Внимание: CLOUDFLARE_ACCOUNT_ID выглядит неправильно "
+            f"(длина {len(CLOUDFLARE_ACCOUNT_ID)}, ожидается 32 символа: цифры и буквы a-f).")
     prompt = f"{make_image_prompt(item)}, {IMAGE_STYLE}"
     log("Описание картинки:", prompt)
     url = (f"https://api.cloudflare.com/client/v4/accounts/{CLOUDFLARE_ACCOUNT_ID}"
@@ -326,6 +332,9 @@ def generate_image(item):
         )
         if not r.ok:
             log(f"Cloudflare вернул {r.status_code}: {r.text[:300]}")
+            if "7000" in r.text:
+                log("Подсказка: ошибка 7000 почти всегда значит, что в секрете "
+                    "CLOUDFLARE_ACCOUNT_ID записан не Account ID (проверьте значение).")
             return None
         if r.headers.get("content-type", "").startswith("image"):
             return r.content
@@ -436,7 +445,7 @@ def main():
                     log("Картинка не обработана, постим без неё:", ex)
 
         footer = ""
-        if photo:
+        if photo and SHOW_AI_NOTE:
             footer += f"\n\n{AI_NOTE}"
         if SOURCE_LINK:
             footer += f"\n🔗 Источник: {it['url']}" if footer else f"\n\n🔗 Источник: {it['url']}"
