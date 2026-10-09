@@ -57,6 +57,18 @@ def normalize_title(value):
     return re.sub(r"\s+", " ", t).strip()
 
 
+def title_stems(norm_title):
+    return {w[:5] for w in norm_title.split() if len(w) > 3}
+
+
+def is_similar(stems_a, norm_title_b):
+    b = title_stems(norm_title_b)
+    if not stems_a or not b:
+        return False
+    inter = len(stems_a & b)
+    return inter >= 3 and inter / min(len(stems_a), len(b)) >= 0.6
+
+
 def parse_date(value):
     if not value:
         return None
@@ -70,9 +82,16 @@ def parse_date(value):
 
 
 # ---------- источники ----------
-def fetch_minsknews():
+RSS_SOURCES = [
+    ("minsknews.by", "https://minsknews.by/feed"),
+    ("onliner.by", "https://www.onliner.by/feed"),
+]
+
+
+def fetch_rss(source, url):
     out = []
-    feed = feedparser.parse("https://minsknews.by/feed", request_headers=HEADERS)
+    feed = feedparser.parse(url, request_headers=HEADERS)
+    status = getattr(feed, "status", "нет ответа")
     for e in feed.entries:
         html = ""
         if e.get("content"):
@@ -81,17 +100,29 @@ def fetch_minsknews():
         soup = BeautifulSoup(html, "html.parser")
         img = soup.find("img")
         image = img.get("src") if img else None
+        if not image:
+            for m in (e.get("media_content") or []) + (e.get("media_thumbnail") or []):
+                if m.get("url"):
+                    image = m["url"]
+                    break
+        if not image:
+            for enc in e.get("enclosures") or []:
+                if str(enc.get("type", "")).startswith("image") and enc.get("href"):
+                    image = enc["href"]
+                    break
         desc = soup.get_text(" ", strip=True)
-        url = (e.get("link") or e.get("id") or "").strip()
+        link = (e.get("link") or e.get("id") or "").strip()
         out.append({
-            "source": "minsknews.by",
+            "source": source,
             "title": (e.get("title") or "").strip(),
-            "url": url,
+            "url": link,
             "description": desc,
             "publishedAt": e.get("published") or e.get("updated"),
             "imageUrl": image,
         })
-    log(f"minsknews.by: {len(out)}")
+    log(f"{source}: {len(out)} (HTTP {status})")
+    if not out and getattr(feed, "bozo", 0):
+        log(f"  {source}: проблема с лентой: {feed.get('bozo_exception')}")
     return out
 
 
@@ -177,6 +208,9 @@ def select_candidates(items, published_urls, published_titles):
         it["normalizedTitle"] = normalize_title(it["title"])
         if it["normalizedUrl"] in seen_u or it["normalizedTitle"] in seen_t:
             continue
+        stems = title_stems(it["normalizedTitle"])
+        if any(is_similar(stems, t) for t in seen_t):
+            continue
         seen_u.add(it["normalizedUrl"])
         seen_t.add(it["normalizedTitle"])
         d = parse_date(it.get("publishedAt"))
@@ -185,6 +219,8 @@ def select_candidates(items, published_urls, published_titles):
         it["_date"] = d
         it["interestScore"] = score(text)
         if it["normalizedUrl"] in published_urls or it["normalizedTitle"] in published_titles:
+            continue
+        if any(is_similar(stems, t) for t in published_titles if t):
             continue
         res.append(it)
     res.sort(key=lambda x: (x["interestScore"], x["_date"]), reverse=True)
@@ -297,11 +333,13 @@ def main():
         sys.exit("Нет GEMINI_API_KEY")
 
     items = []
-    for fn in (fetch_minsknews, fetch_belnovosti):
+    fetchers = [(name, lambda n=name, u=url: fetch_rss(n, u)) for name, url in RSS_SOURCES]
+    fetchers.append(("belnovosti.by", fetch_belnovosti))
+    for name, fn in fetchers:
         try:
             items += fn()
         except Exception as ex:
-            log(f"Источник {fn.__name__} упал:", ex)
+            log(f"Источник {name} упал:", ex)
 
     state = load_state()
     pub_urls = {s.get("normalizedUrl") for s in state}
