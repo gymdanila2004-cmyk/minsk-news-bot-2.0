@@ -2,10 +2,12 @@ name: Minsk news bot
 
 on:
   schedule:
-    # GitHub использует UTC. Минск = UTC+3, поэтому 08:00 / 16:00 / 21:00 по Минску:
-    - cron: "0 5 * * *"
-    - cron: "0 13 * * *"
-    - cron: "0 18 * * *"
+    # GitHub использует UTC. Минск = UTC+3.
+    # Минуты сдвинуты на :17, чтобы избежать пика нагрузки в начале часа.
+    # Запуски по Минску: ~08:17, ~16:17, ~21:17
+    - cron: "17 5 * * *"
+    - cron: "17 13 * * *"
+    - cron: "17 18 * * *"
   workflow_dispatch:
     inputs:
       dry_run:
@@ -22,7 +24,7 @@ concurrency:
 
 jobs:
   post:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
