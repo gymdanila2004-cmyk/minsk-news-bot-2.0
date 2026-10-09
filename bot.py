@@ -1,5 +1,6 @@
 """Бот новостей Минска: источники -> фильтры -> Gemini -> водяной знак -> Telegram.
 Перенос workflow n8n «Minsk News Bot» в обычный скрипт для GitHub Actions."""
+import base64
 import io
 import json
 import os
@@ -21,6 +22,11 @@ CHANNEL_ID = os.environ.get("CHANNEL_ID", "@Minsknewssss")
 GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.5-flash-lite")
 MAX_POSTS_PER_RUN = int(os.environ.get("MAX_POSTS_PER_RUN", "1"))
 DRY_RUN = os.environ.get("DRY_RUN", "0") == "1"
+CLOUDFLARE_ACCOUNT_ID = os.environ.get("CLOUDFLARE_ACCOUNT_ID", "")
+CLOUDFLARE_API_TOKEN = os.environ.get("CLOUDFLARE_API_TOKEN", "")
+IMAGE_MODE = os.environ.get("IMAGE_MODE", "ai")      # ai = иллюстрация от ИИ, none = без картинки
+SOURCE_LINK = os.environ.get("SOURCE_LINK", "1") == "1"  # добавлять ссылку на источник
+AI_NOTE = "🖼 Иллюстрация создана ИИ"
 
 WATERMARK_TEXT = "Новости Минск"
 WATERMARK_COLOR = "#4E4646"
@@ -246,6 +252,18 @@ def save_state(state):
 
 
 # ---------- Gemini ----------
+def gemini(prompt):
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
+    r = requests.post(
+        url,
+        headers={"x-goog-api-key": GEMINI_API_KEY, "Content-Type": "application/json"},
+        json={"contents": [{"parts": [{"text": prompt}]}]},
+        timeout=60,
+    )
+    r.raise_for_status()
+    return r.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
+
+
 def rewrite(item):
     prompt = (
         "Перепиши новость для Telegram-канала с новостями Минска.\n\n"
@@ -264,15 +282,58 @@ def rewrite(item):
         f"Источник: {item['url']}\n\nЗаголовок:\n{item['title']}\n\n"
         f"Исходный текст:\n{item.get('description') or ''}"
     )
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
-    r = requests.post(
-        url,
-        headers={"x-goog-api-key": GEMINI_API_KEY, "Content-Type": "application/json"},
-        json={"contents": [{"parts": [{"text": prompt}]}]},
-        timeout=60,
+    return gemini(prompt)
+
+
+# ---------- иллюстрация от ИИ ----------
+IMAGE_STYLE = ("flat vector editorial illustration, minimal, soft calm colors, "
+               "no text, no letters, no logos, no faces")
+FALLBACK_IMAGE_PROMPT = "a quiet European city street with modern buildings and trees"
+
+
+def make_image_prompt(item):
+    prompt = (
+        "Write ONE short English prompt (under 50 words) for an image generator. "
+        "The image must be a simple abstract illustration of the general topic of this news "
+        "(for example: a city street, a tram, rain over buildings, a hospital building, "
+        "a road with traffic). Strict rules: no people, no faces, no text or letters, "
+        "no logos, no blood, no injuries, no accidents shown, no violence, no real persons, "
+        "no real brands. Output only the prompt.\n\n"
+        f"News headline: {item['title']}\n{(item.get('description') or '')[:400]}"
     )
-    r.raise_for_status()
-    return r.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
+    try:
+        text = gemini(prompt).strip().strip('"')
+        return text or FALLBACK_IMAGE_PROMPT
+    except Exception as ex:
+        log("Не удалось составить описание картинки, беру запасное:", ex)
+        return FALLBACK_IMAGE_PROMPT
+
+
+def generate_image(item):
+    if not (CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_API_TOKEN):
+        log("Нет CLOUDFLARE_ACCOUNT_ID / CLOUDFLARE_API_TOKEN — пост будет без картинки.")
+        return None
+    prompt = f"{make_image_prompt(item)}, {IMAGE_STYLE}"
+    log("Описание картинки:", prompt)
+    url = (f"https://api.cloudflare.com/client/v4/accounts/{CLOUDFLARE_ACCOUNT_ID}"
+           "/ai/run/@cf/black-forest-labs/flux-1-schnell")
+    try:
+        r = requests.post(
+            url,
+            headers={"Authorization": f"Bearer {CLOUDFLARE_API_TOKEN}"},
+            json={"prompt": prompt, "steps": 4},
+            timeout=90,
+        )
+        if not r.ok:
+            log(f"Cloudflare вернул {r.status_code}: {r.text[:300]}")
+            return None
+        if r.headers.get("content-type", "").startswith("image"):
+            return r.content
+        b64 = r.json()["result"]["image"]
+        return base64.b64decode(b64)
+    except Exception as ex:
+        log("Не удалось сгенерировать картинку:", ex)
+        return None
 
 
 # ---------- картинка ----------
@@ -314,15 +375,19 @@ def tg(method, **kw):
     return r.json()
 
 
-def send_post(caption, photo_bytes):
+def send_post(caption, photo_bytes, footer=""):
+    # лимит подписи к фото в Telegram — 1024 символа, у текстового сообщения — 4096
+    limit = 1024 if photo_bytes else 4096
+    room = limit - len(footer)
+    if len(caption) > room:
+        caption = caption[:room - 4].rstrip() + "…"
+    text = caption + footer
     if photo_bytes:
-        # лимит подписи к фото в Telegram — 1024 символа
-        if len(caption) > 1024:
-            caption = caption[:1020].rstrip() + "…"
-        tg("sendPhoto", data={"chat_id": CHANNEL_ID, "caption": caption},
+        tg("sendPhoto", data={"chat_id": CHANNEL_ID, "caption": text},
            files={"photo": ("news.jpg", photo_bytes, "image/jpeg")})
     else:
-        tg("sendMessage", data={"chat_id": CHANNEL_ID, "text": caption[:4096]})
+        tg("sendMessage", data={"chat_id": CHANNEL_ID, "text": text,
+                                "disable_web_page_preview": "true"})
 
 
 # ---------- main ----------
@@ -362,19 +427,26 @@ def main():
             continue
 
         photo = None
-        if it.get("imageUrl"):
-            try:
-                ir = requests.get(it["imageUrl"], headers=HEADERS, timeout=TIMEOUT)
-                ir.raise_for_status()
-                photo = watermark(ir.content)
-            except Exception as ex:
-                log("Картинка не обработана, постим без неё:", ex)
+        if IMAGE_MODE == "ai":
+            raw = generate_image(it)
+            if raw:
+                try:
+                    photo = watermark(raw)
+                except Exception as ex:
+                    log("Картинка не обработана, постим без неё:", ex)
+
+        footer = ""
+        if photo:
+            footer += f"\n\n{AI_NOTE}"
+        if SOURCE_LINK:
+            footer += f"\n🔗 Источник: {it['url']}" if footer else f"\n\n🔗 Источник: {it['url']}"
 
         if DRY_RUN:
-            log("DRY RUN, не отправляю:\n", caption)
+            log("DRY RUN, не отправляю:\n", caption + footer)
+            log("Картинка:", f"{len(photo) // 1024} КБ" if photo else "нет")
         else:
             try:
-                send_post(caption, photo)
+                send_post(caption, photo, footer)
             except Exception as ex:
                 log("Отправка не удалась:", ex)
                 continue
