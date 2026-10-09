@@ -39,7 +39,8 @@ jobs:
           GEMINI_MODEL: "gemini-3.5-flash-lite"
           MAX_POSTS_PER_RUN: "1"
           IMAGE_MODE: "ai"
-          SOURCE_LINK: "1"
+          SOURCE_LINK: "0"
+          SHOW_AI_NOTE: "0"
           DRY_RUN: ${{ github.event.inputs.dry_run || '0' }}
 
       - name: Save published list
