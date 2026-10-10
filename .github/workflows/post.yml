@@ -33,12 +33,15 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CHANNEL_ID: "@Minsknewssss"
           GEMINI_MODEL: "gemini-3.5-flash-lite"
           MAX_POSTS_PER_RUN: "1"
-          IMAGE_MODE: "ai"
+          IMAGE_SOURCES: "openverse,pexels,ai"
+          OPENVERSE_SOURCE: "wikimedia"
+          PEXELS_CREDIT: "1"
           SOURCE_LINK: "0"
           SHOW_AI_NOTE: "0"
           DRY_RUN: ${{ github.event.inputs.dry_run || '0' }}
