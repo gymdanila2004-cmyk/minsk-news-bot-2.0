@@ -38,6 +38,7 @@ jobs:
           MAX_POSTS_PER_RUN: "1"
           IMAGE_SOURCES: "commons,openverse"
           OPENVERSE_SOURCE: ""
+          ALLOW_BY: "0"
           SOURCE_LINK: "0"
           DRY_RUN: ${{ github.event.inputs.dry_run || '0' }}
 
