@@ -27,6 +27,7 @@ IMAGE_SOURCES = [x.strip() for x in os.environ.get("IMAGE_SOURCES", "commons,ope
                  if x.strip() and x.strip() != "none"]
 OPENVERSE_SOURCE = os.environ.get("OPENVERSE_SOURCE", "")  # пусто = все источники Openverse, wikimedia = только Commons
 SOURCE_LINK = os.environ.get("SOURCE_LINK", "1") == "1"  # добавлять ссылку на источник
+ALLOW_BY = os.environ.get("ALLOW_BY", "0") == "1"  # 1 = разрешить фото CC BY (подпись автора обязательна); 0 = только CC0 / общественное достояние, подпись не нужна
 
 WATERMARK_TEXT = "Новости Минск"
 WATERMARK_COLOR = "#4E4646"
@@ -315,7 +316,7 @@ def commons_license_ok(name):
     if n in ("cc0", "cc0 1.0", "public domain", "pd") or n.startswith("cc0") \
             or n.startswith("public domain") or n.startswith("pd-"):
         return "pd"
-    if re.fullmatch(r"cc by \d(\.\d)?( [a-z]{2,3})?", n):  # CC BY 4.0, но не BY-SA / NC / ND
+    if ALLOW_BY and re.fullmatch(r"cc by \d(\.\d)?( [a-z]{2,3})?", n):  # CC BY 4.0, но не BY-SA / NC / ND
         return "by"
     return None
 
@@ -353,7 +354,7 @@ def fetch_commons_photo(item, used_ids):
                 continue
             good.append((p, info, meta_, kind))
         if not good:
-            log("Commons ничего подходящего не нашёл (нужны CC0, общественное достояние или CC BY).")
+            log("Commons ничего подходящего не нашёл (нужны CC0 / общественное достояние" + (" / CC BY)." if ALLOW_BY else ")."))
             continue
         p, info, meta_, kind = random.choice(good[:10])
         link = info.get("thumburl") or info.get("url")
@@ -374,7 +375,7 @@ def fetch_commons_photo(item, used_ids):
                 line += f", {info['descriptionurl']}"
             line += ", с изменениями (добавлен знак канала)"
         else:
-            line = f"📷 Фото: {artist}, Wikimedia Commons, общественное достояние/CC0"
+            line = ""  # CC0 и общественное достояние не требуют подписи
         return {"bytes": img.content, "id": f"cm:{p.get('pageid')}", "credit": line}
     return None
 
@@ -391,15 +392,14 @@ def openverse_credit(r):
             line += f" ({r['license_url']})"
         line += ", с изменениями (добавлен знак канала)"
         return line
-    label = "CC0" if lic == "cc0" else "общественное достояние"
-    return f"📷 Фото: {creator}, {src}, {label}"
+    return ""  # CC0 и общественное достояние не требуют подписи
 
 
 def fetch_openverse_photo(item, used_ids):
     base = make_photo_query(item)
     for query in (f"Minsk {base}", base):
         log("Запрос в Openverse:", query)
-        params = {"q": query, "license": "cc0,pdm,by", "category": "photograph",
+        params = {"q": query, "license": "cc0,pdm,by" if ALLOW_BY else "cc0,pdm", "category": "photograph",
                   "extension": "jpg", "mature": "false", "page_size": 20}
         if OPENVERSE_SOURCE:
             params["source"] = OPENVERSE_SOURCE
