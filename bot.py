@@ -4,6 +4,7 @@ import base64
 import io
 import json
 import os
+import random
 import re
 import sys
 from datetime import datetime, timedelta, timezone
@@ -26,7 +27,12 @@ _raw_account = os.environ.get("CLOUDFLARE_ACCOUNT_ID", "")
 _m = re.search(r"[0-9a-fA-F]{32}", _raw_account)  # берём сам ID, даже если вставили лишнее (слэши, пробелы)
 CLOUDFLARE_ACCOUNT_ID = _m.group(0) if _m else _raw_account.strip().strip("/")
 CLOUDFLARE_API_TOKEN = os.environ.get("CLOUDFLARE_API_TOKEN", "").strip()
-IMAGE_MODE = os.environ.get("IMAGE_MODE", "ai")      # ai = иллюстрация от ИИ, none = без картинки
+# Откуда брать картинку, по порядку (берётся первая удачная): openverse, pexels, ai. "none" = без картинки.
+IMAGE_SOURCES = [x.strip() for x in os.environ.get("IMAGE_SOURCES", "openverse,pexels,ai").split(",")
+                 if x.strip() and x.strip() != "none"]
+OPENVERSE_SOURCE = os.environ.get("OPENVERSE_SOURCE", "wikimedia")  # wikimedia = только Wikimedia Commons, пусто = все источники Openverse
+PEXELS_API_KEY = os.environ.get("PEXELS_API_KEY", "").strip()
+PEXELS_CREDIT = os.environ.get("PEXELS_CREDIT", "1") == "1"  # подпись «Фото: автор, Pexels» (по правилам Pexels API)
 SOURCE_LINK = os.environ.get("SOURCE_LINK", "1") == "1"  # добавлять ссылку на источник
 SHOW_AI_NOTE = os.environ.get("SHOW_AI_NOTE", "1") == "1"  # добавлять пометку «создано ИИ»
 AI_NOTE = "🖼 Иллюстрация создана ИИ"
@@ -345,6 +351,113 @@ def generate_image(item):
         return None
 
 
+# ---------- фото из открытых источников ----------
+def make_photo_query(item):
+    if "_photo_query" in item:
+        return item["_photo_query"]
+    prompt = (
+        "Write ONE short English search query (2-4 words) for a stock photo site that "
+        "illustrates the general topic of this news with a generic scene "
+        "(for example: city street, rain city, tram, hospital building, road traffic, "
+        "apartment building, snow city, police car). No names of people, no brands, "
+        "no places. Output only the query.\n\n"
+        f"News headline: {item['title']}\n{(item.get('description') or '')[:300]}"
+    )
+    try:
+        q = gemini(prompt).strip().strip('"').splitlines()[0].strip() or "city street"
+    except Exception as ex:
+        log("Не удалось составить запрос для фото, беру запасной:", ex)
+        q = "city street"
+    item["_photo_query"] = q
+    return q
+
+
+def fetch_pexels_photo(item, used_ids):
+    if not PEXELS_API_KEY:
+        log("Нет PEXELS_API_KEY — фото из Pexels не берём.")
+        return None
+    query = make_photo_query(item)
+    log("Запрос в Pexels:", query)
+    try:
+        r = requests.get(
+            "https://api.pexels.com/v1/search",
+            headers={"Authorization": PEXELS_API_KEY},
+            params={"query": query, "per_page": 15, "orientation": "landscape"},
+            timeout=TIMEOUT,
+        )
+        if not r.ok:
+            log(f"Pexels вернул {r.status_code}: {r.text[:200]}")
+            return None
+        photos = [p for p in r.json().get("photos", []) if p.get("id") not in used_ids]
+        if not photos:
+            log("Pexels ничего не нашёл по этому запросу.")
+            return None
+        p = random.choice(photos[:10])
+        img = requests.get(p["src"]["large"], headers=HEADERS, timeout=TIMEOUT)
+        img.raise_for_status()
+        who = f"{p.get('photographer')}, " if p.get("photographer") else ""
+        credit = f"📷 Фото: {who}Pexels" if PEXELS_CREDIT else ""
+        return {"bytes": img.content, "id": p["id"], "credit": credit}
+    except Exception as ex:
+        log("Не удалось получить фото из Pexels:", ex)
+        return None
+
+
+def openverse_credit(r):
+    lic = (r.get("license") or "").lower()
+    ver = r.get("license_version") or ""
+    creator = r.get("creator") or "автор не указан"
+    src = {"wikimedia": "Wikimedia Commons", "flickr": "Flickr"}.get(
+        (r.get("source") or "").lower(), r.get("source") or "Openverse")
+    if lic == "by":
+        line = f"📷 Фото: {creator}, {src}, CC BY {ver}".rstrip()
+        if r.get("license_url"):
+            line += f" ({r['license_url']})"
+        line += ", с изменениями (добавлен знак канала)"
+        return line
+    label = "CC0" if lic == "cc0" else "общественное достояние"
+    return f"📷 Фото: {creator}, {src}, {label}"
+
+
+def fetch_openverse_photo(item, used_ids):
+    base = make_photo_query(item)
+    for query in (f"Minsk {base}", base):
+        log("Запрос в Openverse:", query)
+        params = {"q": query, "license": "cc0,pdm,by", "category": "photograph",
+                  "extension": "jpg", "mature": "false", "page_size": 20}
+        if OPENVERSE_SOURCE:
+            params["source"] = OPENVERSE_SOURCE
+        try:
+            r = requests.get("https://api.openverse.org/v1/images/", headers=HEADERS,
+                             params=params, timeout=TIMEOUT)
+            if not r.ok:
+                log(f"Openverse вернул {r.status_code}: {r.text[:200]}")
+                return None
+            results = [x for x in r.json().get("results", [])
+                       if f"ov:{x.get('id')}" not in used_ids and x.get("url")]
+        except Exception as ex:
+            log("Не удалось запросить Openverse:", ex)
+            return None
+        if not results:
+            log("Openverse ничего не нашёл по этому запросу.")
+            continue
+        x = random.choice(results[:10])
+        for link in (x.get("url"), x.get("thumbnail")):
+            if not link:
+                continue
+            try:
+                img = requests.get(link, headers=HEADERS, timeout=30)
+                img.raise_for_status()
+                if len(img.content) > 15 * 1024 * 1024:
+                    log("Файл слишком большой, пропускаю.")
+                    continue
+                return {"bytes": img.content, "id": f"ov:{x['id']}", "credit": openverse_credit(x)}
+            except Exception as ex:
+                log("Не удалось скачать фото из Openverse:", ex)
+        return None
+    return None
+
+
 # ---------- картинка ----------
 FONT_PATHS = [
     "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
@@ -362,6 +475,8 @@ def load_font(size):
 
 def watermark(image_bytes):
     img = Image.open(io.BytesIO(image_bytes)).convert("RGB")
+    if img.width > 1600:
+        img = img.resize((1600, int(img.height * 1600 / img.width)), Image.LANCZOS)
     w, h = img.size
     font = load_font(max(20, min(48, w // 15)))
     draw = ImageDraw.Draw(img)
@@ -418,6 +533,7 @@ def main():
     state = load_state()
     pub_urls = {s.get("normalizedUrl") for s in state}
     pub_titles = {s.get("normalizedTitle") for s in state}
+    used_ids = {s.get("photoId") for s in state if s.get("photoId")}
     candidates = select_candidates(items, pub_urls, pub_titles)
     log(f"Кандидатов: {len(candidates)}")
     if not candidates:
@@ -436,23 +552,40 @@ def main():
             continue
 
         photo = None
-        if IMAGE_MODE == "ai":
-            raw = generate_image(it)
-            if raw:
-                try:
-                    photo = watermark(raw)
-                except Exception as ex:
-                    log("Картинка не обработана, постим без неё:", ex)
+        kind = None
+        photo_id = None
+        credit = ""
+        for src in IMAGE_SOURCES:
+            if src == "openverse":
+                res = fetch_openverse_photo(it, used_ids)
+            elif src == "pexels":
+                res = fetch_pexels_photo(it, used_ids)
+            elif src == "ai":
+                raw = generate_image(it)
+                res = {"bytes": raw, "id": None, "credit": ""} if raw else None
+            else:
+                log("Неизвестный источник картинок:", src)
+                continue
+            if not res:
+                continue
+            try:
+                photo = watermark(res["bytes"])
+                kind, photo_id, credit = src, res.get("id"), res.get("credit", "")
+                break
+            except Exception as ex:
+                log(f"Картинка из {src} не обработана:", ex)
 
         footer = ""
-        if photo and SHOW_AI_NOTE:
+        if kind in ("openverse", "pexels") and credit:
+            footer += f"\n\n{credit}"
+        if kind == "ai" and SHOW_AI_NOTE:
             footer += f"\n\n{AI_NOTE}"
         if SOURCE_LINK:
             footer += f"\n🔗 Источник: {it['url']}" if footer else f"\n\n🔗 Источник: {it['url']}"
 
         if DRY_RUN:
             log("DRY RUN, не отправляю:\n", caption + footer)
-            log("Картинка:", f"{len(photo) // 1024} КБ" if photo else "нет")
+            log("Картинка:", f"{kind}, {len(photo) // 1024} КБ" if photo else "нет")
         else:
             try:
                 send_post(caption, photo, footer)
@@ -463,6 +596,7 @@ def main():
                 "normalizedUrl": it["normalizedUrl"],
                 "normalizedTitle": it["normalizedTitle"],
                 "source": it["source"],
+                "photoId": photo_id,
                 "publishedAt": it["_date"].isoformat(),
                 "addedAt": datetime.now(timezone.utc).isoformat(),
             })
