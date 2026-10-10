@@ -1,6 +1,5 @@
 """Бот новостей Минска: источники -> фильтры -> Gemini -> водяной знак -> Telegram.
 Перенос workflow n8n «Minsk News Bot» в обычный скрипт для GitHub Actions."""
-import base64
 import io
 import json
 import os
@@ -23,19 +22,11 @@ CHANNEL_ID = os.environ.get("CHANNEL_ID", "@Minsknewssss")
 GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.5-flash-lite")
 MAX_POSTS_PER_RUN = int(os.environ.get("MAX_POSTS_PER_RUN", "1"))
 DRY_RUN = os.environ.get("DRY_RUN", "0") == "1"
-_raw_account = os.environ.get("CLOUDFLARE_ACCOUNT_ID", "")
-_m = re.search(r"[0-9a-fA-F]{32}", _raw_account)  # берём сам ID, даже если вставили лишнее (слэши, пробелы)
-CLOUDFLARE_ACCOUNT_ID = _m.group(0) if _m else _raw_account.strip().strip("/")
-CLOUDFLARE_API_TOKEN = os.environ.get("CLOUDFLARE_API_TOKEN", "").strip()
-# Откуда брать картинку, по порядку (берётся первая удачная): openverse, pexels, ai. "none" = без картинки.
-IMAGE_SOURCES = [x.strip() for x in os.environ.get("IMAGE_SOURCES", "openverse,pexels,ai").split(",")
+# Откуда брать картинку, по порядку (берётся первая удачная): commons, openverse. "none" = без картинки.
+IMAGE_SOURCES = [x.strip() for x in os.environ.get("IMAGE_SOURCES", "commons,openverse").split(",")
                  if x.strip() and x.strip() != "none"]
-OPENVERSE_SOURCE = os.environ.get("OPENVERSE_SOURCE", "wikimedia")  # wikimedia = только Wikimedia Commons, пусто = все источники Openverse
-PEXELS_API_KEY = os.environ.get("PEXELS_API_KEY", "").strip()
-PEXELS_CREDIT = os.environ.get("PEXELS_CREDIT", "1") == "1"  # подпись «Фото: автор, Pexels» (по правилам Pexels API)
+OPENVERSE_SOURCE = os.environ.get("OPENVERSE_SOURCE", "")  # пусто = все источники Openverse, wikimedia = только Commons
 SOURCE_LINK = os.environ.get("SOURCE_LINK", "1") == "1"  # добавлять ссылку на источник
-SHOW_AI_NOTE = os.environ.get("SHOW_AI_NOTE", "1") == "1"  # добавлять пометку «создано ИИ»
-AI_NOTE = "🖼 Иллюстрация создана ИИ"
 
 WATERMARK_TEXT = "Новости Минск"
 WATERMARK_COLOR = "#4E4646"
@@ -294,63 +285,6 @@ def rewrite(item):
     return gemini(prompt)
 
 
-# ---------- иллюстрация от ИИ ----------
-IMAGE_STYLE = ("flat vector editorial illustration, minimal, soft calm colors, "
-               "no text, no letters, no logos, no faces")
-FALLBACK_IMAGE_PROMPT = "a quiet European city street with modern buildings and trees"
-
-
-def make_image_prompt(item):
-    prompt = (
-        "Write ONE short English prompt (under 50 words) for an image generator. "
-        "The image must be a simple abstract illustration of the general topic of this news "
-        "(for example: a city street, a tram, rain over buildings, a hospital building, "
-        "a road with traffic). Strict rules: no people, no faces, no text or letters, "
-        "no logos, no blood, no injuries, no accidents shown, no violence, no real persons, "
-        "no real brands. Output only the prompt.\n\n"
-        f"News headline: {item['title']}\n{(item.get('description') or '')[:400]}"
-    )
-    try:
-        text = gemini(prompt).strip().strip('"')
-        return text or FALLBACK_IMAGE_PROMPT
-    except Exception as ex:
-        log("Не удалось составить описание картинки, беру запасное:", ex)
-        return FALLBACK_IMAGE_PROMPT
-
-
-def generate_image(item):
-    if not (CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_API_TOKEN):
-        log("Нет CLOUDFLARE_ACCOUNT_ID / CLOUDFLARE_API_TOKEN — пост будет без картинки.")
-        return None
-    if not re.fullmatch(r"[0-9a-fA-F]{32}", CLOUDFLARE_ACCOUNT_ID):
-        log(f"Внимание: CLOUDFLARE_ACCOUNT_ID выглядит неправильно "
-            f"(длина {len(CLOUDFLARE_ACCOUNT_ID)}, ожидается 32 символа: цифры и буквы a-f).")
-    prompt = f"{make_image_prompt(item)}, {IMAGE_STYLE}"
-    log("Описание картинки:", prompt)
-    url = (f"https://api.cloudflare.com/client/v4/accounts/{CLOUDFLARE_ACCOUNT_ID}"
-           "/ai/run/@cf/black-forest-labs/flux-1-schnell")
-    try:
-        r = requests.post(
-            url,
-            headers={"Authorization": f"Bearer {CLOUDFLARE_API_TOKEN}"},
-            json={"prompt": prompt, "steps": 4},
-            timeout=90,
-        )
-        if not r.ok:
-            log(f"Cloudflare вернул {r.status_code}: {r.text[:300]}")
-            if "7000" in r.text:
-                log("Подсказка: ошибка 7000 почти всегда значит, что в секрете "
-                    "CLOUDFLARE_ACCOUNT_ID записан не Account ID (проверьте значение).")
-            return None
-        if r.headers.get("content-type", "").startswith("image"):
-            return r.content
-        b64 = r.json()["result"]["image"]
-        return base64.b64decode(b64)
-    except Exception as ex:
-        log("Не удалось сгенерировать картинку:", ex)
-        return None
-
-
 # ---------- фото из открытых источников ----------
 def make_photo_query(item):
     if "_photo_query" in item:
@@ -372,35 +306,77 @@ def make_photo_query(item):
     return q
 
 
-def fetch_pexels_photo(item, used_ids):
-    if not PEXELS_API_KEY:
-        log("Нет PEXELS_API_KEY — фото из Pexels не берём.")
-        return None
-    query = make_photo_query(item)
-    log("Запрос в Pexels:", query)
-    try:
-        r = requests.get(
-            "https://api.pexels.com/v1/search",
-            headers={"Authorization": PEXELS_API_KEY},
-            params={"query": query, "per_page": 15, "orientation": "landscape"},
-            timeout=TIMEOUT,
-        )
-        if not r.ok:
-            log(f"Pexels вернул {r.status_code}: {r.text[:200]}")
+def clean_html(value):
+    return BeautifulSoup(value or "", "html.parser").get_text(" ", strip=True)
+
+
+def commons_license_ok(name):
+    n = (name or "").strip().lower()
+    if n in ("cc0", "cc0 1.0", "public domain", "pd") or n.startswith("cc0") \
+            or n.startswith("public domain") or n.startswith("pd-"):
+        return "pd"
+    if re.fullmatch(r"cc by \d(\.\d)?( [a-z]{2,3})?", n):  # CC BY 4.0, но не BY-SA / NC / ND
+        return "by"
+    return None
+
+
+def fetch_commons_photo(item, used_ids):
+    base = make_photo_query(item)
+    headers = {"User-Agent": "MinskNewsBot/1.0 (Telegram channel @Minsknewssss; GitHub Actions)"}
+    for query in (f"Minsk {base}", base):
+        log("Запрос в Wikimedia Commons:", query)
+        params = {
+            "action": "query", "format": "json", "generator": "search",
+            "gsrsearch": f"{query} filetype:bitmap", "gsrnamespace": 6, "gsrlimit": 30,
+            "prop": "imageinfo", "iiprop": "url|extmetadata|mime|size", "iiurlwidth": 1600,
+        }
+        try:
+            r = requests.get("https://commons.wikimedia.org/w/api.php", headers=headers,
+                             params=params, timeout=TIMEOUT)
+            if not r.ok:
+                log(f"Commons вернул {r.status_code}: {r.text[:200]}")
+                return None
+            pages = (r.json().get("query") or {}).get("pages") or {}
+        except Exception as ex:
+            log("Не удалось запросить Commons:", ex)
             return None
-        photos = [p for p in r.json().get("photos", []) if p.get("id") not in used_ids]
-        if not photos:
-            log("Pexels ничего не нашёл по этому запросу.")
+        good = []
+        for p in pages.values():
+            info = (p.get("imageinfo") or [None])[0]
+            if not info or info.get("mime") != "image/jpeg" or (info.get("width") or 0) < 1000:
+                continue
+            if f"cm:{p.get('pageid')}" in used_ids:
+                continue
+            meta_ = info.get("extmetadata") or {}
+            kind = commons_license_ok((meta_.get("LicenseShortName") or {}).get("value"))
+            if not kind:
+                continue
+            good.append((p, info, meta_, kind))
+        if not good:
+            log("Commons ничего подходящего не нашёл (нужны CC0, общественное достояние или CC BY).")
+            continue
+        p, info, meta_, kind = random.choice(good[:10])
+        link = info.get("thumburl") or info.get("url")
+        try:
+            img = requests.get(link, headers=headers, timeout=30)
+            img.raise_for_status()
+        except Exception as ex:
+            log("Не удалось скачать фото из Commons:", ex)
             return None
-        p = random.choice(photos[:10])
-        img = requests.get(p["src"]["large"], headers=HEADERS, timeout=TIMEOUT)
-        img.raise_for_status()
-        who = f"{p.get('photographer')}, " if p.get("photographer") else ""
-        credit = f"📷 Фото: {who}Pexels" if PEXELS_CREDIT else ""
-        return {"bytes": img.content, "id": p["id"], "credit": credit}
-    except Exception as ex:
-        log("Не удалось получить фото из Pexels:", ex)
-        return None
+        artist = clean_html((meta_.get("Artist") or {}).get("value")) or "автор не указан"
+        lic_name = (meta_.get("LicenseShortName") or {}).get("value") or ""
+        if kind == "by":
+            line = f"📷 Фото: {artist}, Wikimedia Commons, {lic_name}"
+            lic_url = (meta_.get("LicenseUrl") or {}).get("value")
+            if lic_url:
+                line += f" ({lic_url})"
+            if info.get("descriptionurl"):
+                line += f", {info['descriptionurl']}"
+            line += ", с изменениями (добавлен знак канала)"
+        else:
+            line = f"📷 Фото: {artist}, Wikimedia Commons, общественное достояние/CC0"
+        return {"bytes": img.content, "id": f"cm:{p.get('pageid')}", "credit": line}
+    return None
 
 
 def openverse_credit(r):
@@ -556,13 +532,10 @@ def main():
         photo_id = None
         credit = ""
         for src in IMAGE_SOURCES:
-            if src == "openverse":
+            if src == "commons":
+                res = fetch_commons_photo(it, used_ids)
+            elif src == "openverse":
                 res = fetch_openverse_photo(it, used_ids)
-            elif src == "pexels":
-                res = fetch_pexels_photo(it, used_ids)
-            elif src == "ai":
-                raw = generate_image(it)
-                res = {"bytes": raw, "id": None, "credit": ""} if raw else None
             else:
                 log("Неизвестный источник картинок:", src)
                 continue
@@ -576,10 +549,8 @@ def main():
                 log(f"Картинка из {src} не обработана:", ex)
 
         footer = ""
-        if kind in ("openverse", "pexels") and credit:
+        if photo and credit:
             footer += f"\n\n{credit}"
-        if kind == "ai" and SHOW_AI_NOTE:
-            footer += f"\n\n{AI_NOTE}"
         if SOURCE_LINK:
             footer += f"\n🔗 Источник: {it['url']}" if footer else f"\n\n🔗 Источник: {it['url']}"
 
