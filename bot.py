@@ -101,11 +101,11 @@ def fetch_rss(source, url):
     feed = feedparser.parse(url, request_headers=HEADERS)
     status = getattr(feed, "status", "нет ответа")
     for e in feed.entries:
-        html_text = ""
+        html = ""
         if e.get("content"):
-            html_text = e["content"][0].get("value", "")
-        html_text = html_text or e.get("summary", "")
-        soup = BeautifulSoup(html_text, "html.parser")
+            html = e["content"][0].get("value", "")
+        html = html or e.get("summary", "")
+        soup = BeautifulSoup(html, "html.parser")
         img = soup.find("img")
         image = img.get("src") if img else None
         if not image:
@@ -341,4 +341,248 @@ def fetch_commons_photo(item, used_ids):
         log("Запрос в Wikimedia Commons:", query)
         params = {
             "action": "query", "format": "json", "generator": "search",
-            "gsrsearch":
+            "gsrsearch": f"{query} filetype:bitmap", "gsrnamespace": 6, "gsrlimit": 30,
+            "prop": "imageinfo", "iiprop": "url|extmetadata|mime|size", "iiurlwidth": 1600,
+        }
+        try:
+            r = requests.get("https://commons.wikimedia.org/w/api.php", headers=headers,
+                             params=params, timeout=TIMEOUT)
+            if not r.ok:
+                log(f"Commons вернул {r.status_code}: {r.text[:200]}")
+                return None
+            pages = (r.json().get("query") or {}).get("pages") or {}
+        except Exception as ex:
+            log("Не удалось запросить Commons:", ex)
+            return None
+        good = []
+        for p in pages.values():
+            info = (p.get("imageinfo") or [None])[0]
+            if not info or info.get("mime") != "image/jpeg" or (info.get("width") or 0) < 1000:
+                continue
+            if f"cm:{p.get('pageid')}" in used_ids:
+                continue
+            meta_ = info.get("extmetadata") or {}
+            kind = commons_license_ok((meta_.get("LicenseShortName") or {}).get("value"))
+            if not kind:
+                continue
+            good.append((p, info, meta_, kind))
+        if not good:
+            log("Commons ничего подходящего не нашёл (нужны CC0 / общественное достояние" + (" / CC BY)." if ALLOW_BY else ")."))
+            continue
+        p, info, meta_, kind = random.choice(good[:10])
+        link = info.get("thumburl") or info.get("url")
+        try:
+            img = requests.get(link, headers=headers, timeout=30)
+            img.raise_for_status()
+        except Exception as ex:
+            log("Не удалось скачать фото из Commons:", ex)
+            return None
+        artist = clean_html((meta_.get("Artist") or {}).get("value")) or "автор не указан"
+        artist = artist[:60]
+        lic_name = (meta_.get("LicenseShortName") or {}).get("value") or ""
+        if kind == "by":
+            lic_url = (meta_.get("LicenseUrl") or {}).get("value")
+            line = make_credit(artist, info.get("descriptionurl"), lic_name, lic_url)
+        else:
+            line = None  # CC0 и общественное достояние не требуют подписи
+        return {"bytes": img.content, "id": f"cm:{p.get('pageid')}", "credit": line}
+    return None
+
+
+def openverse_credit(r):
+    lic = (r.get("license") or "").lower()
+    if lic != "by":
+        return None  # CC0 и общественное достояние не требуют подписи
+    creator = (r.get("creator") or "автор не указан")[:60]
+    author_url = r.get("creator_url") or r.get("foreign_landing_url")
+    ver = r.get("license_version") or ""
+    return make_credit(creator, author_url, f"CC BY {ver}".strip(), r.get("license_url"))
+
+
+def fetch_openverse_photo(item, used_ids):
+    base = make_photo_query(item)
+    for query in (f"Minsk {base}", base):
+        log("Запрос в Openverse:", query)
+        params = {"q": query, "license": "cc0,pdm,by" if ALLOW_BY else "cc0,pdm", "category": "photograph",
+                  "extension": "jpg", "mature": "false", "page_size": 20}
+        if OPENVERSE_SOURCE:
+            params["source"] = OPENVERSE_SOURCE
+        try:
+            r = requests.get("https://api.openverse.org/v1/images/", headers=HEADERS,
+                             params=params, timeout=TIMEOUT)
+            if not r.ok:
+                log(f"Openverse вернул {r.status_code}: {r.text[:200]}")
+                return None
+            results = [x for x in r.json().get("results", [])
+                       if f"ov:{x.get('id')}" not in used_ids and x.get("url")]
+        except Exception as ex:
+            log("Не удалось запросить Openverse:", ex)
+            return None
+        if not results:
+            log("Openverse ничего не нашёл по этому запросу.")
+            continue
+        x = random.choice(results[:10])
+        for link in (x.get("url"), x.get("thumbnail")):
+            if not link:
+                continue
+            try:
+                img = requests.get(link, headers=HEADERS, timeout=30)
+                img.raise_for_status()
+                if len(img.content) > 15 * 1024 * 1024:
+                    log("Файл слишком большой, пропускаю.")
+                    continue
+                return {"bytes": img.content, "id": f"ov:{x['id']}", "credit": openverse_credit(x)}
+            except Exception as ex:
+                log("Не удалось скачать фото из Openverse:", ex)
+        return None
+    return None
+
+
+# ---------- картинка ----------
+FONT_PATHS = [
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+    "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
+    "C:/Windows/Fonts/arialbd.ttf",
+]
+
+
+def load_font(size):
+    for p in FONT_PATHS:
+        if os.path.exists(p):
+            return ImageFont.truetype(p, size)
+    return ImageFont.load_default()
+
+
+def watermark(image_bytes):
+    img = Image.open(io.BytesIO(image_bytes)).convert("RGB")
+    if img.width > 1600:
+        img = img.resize((1600, int(img.height * 1600 / img.width)), Image.LANCZOS)
+    w, h = img.size
+    font = load_font(max(20, min(48, w // 15)))
+    draw = ImageDraw.Draw(img)
+    bbox = draw.textbbox((0, 0), WATERMARK_TEXT, font=font, stroke_width=2)
+    tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
+    x, y = w - tw - 24 - bbox[0], h - th - 24 - bbox[1]
+    draw.text((x, y), WATERMARK_TEXT, font=font, fill=WATERMARK_COLOR,
+              stroke_width=2, stroke_fill="#FFFFFF")
+    out = io.BytesIO()
+    img.save(out, format="JPEG", quality=90)
+    return out.getvalue()
+
+
+# ---------- Telegram ----------
+def tg(method, **kw):
+    r = requests.post(f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/{method}",
+                      timeout=60, **kw)
+    if not r.ok:
+        raise RuntimeError(f"Telegram {method}: {r.status_code} {r.text}")
+    return r.json()
+
+
+def send_post(caption, photo_bytes, footer_plain="", footer_html=""):
+    # лимит подписи к фото в Telegram — 1024 символа (по видимому тексту), у сообщения — 4096
+    limit = 1024 if photo_bytes else 4096
+    room = limit - len(footer_plain)
+    if len(caption) > room:
+        caption = caption[:room - 4].rstrip() + "…"
+    text = html.escape(caption) + footer_html
+    if photo_bytes:
+        tg("sendPhoto", data={"chat_id": CHANNEL_ID, "caption": text, "parse_mode": "HTML"},
+           files={"photo": ("news.jpg", photo_bytes, "image/jpeg")})
+    else:
+        tg("sendMessage", data={"chat_id": CHANNEL_ID, "text": text, "parse_mode": "HTML",
+                                "disable_web_page_preview": "true"})
+
+
+# ---------- main ----------
+def main():
+    if not DRY_RUN and not TELEGRAM_BOT_TOKEN:
+        sys.exit("Нет TELEGRAM_BOT_TOKEN")
+    if not GEMINI_API_KEY:
+        sys.exit("Нет GEMINI_API_KEY")
+
+    items = []
+    fetchers = [(name, lambda n=name, u=url: fetch_rss(n, u)) for name, url in RSS_SOURCES]
+    fetchers.append(("belnovosti.by", fetch_belnovosti))
+    for name, fn in fetchers:
+        try:
+            items += fn()
+        except Exception as ex:
+            log(f"Источник {name} упал:", ex)
+
+    state = load_state()
+    pub_urls = {s.get("normalizedUrl") for s in state}
+    pub_titles = {s.get("normalizedTitle") for s in state}
+    used_ids = {s.get("photoId") for s in state if s.get("photoId")}
+    candidates = select_candidates(items, pub_urls, pub_titles)
+    log(f"Кандидатов: {len(candidates)}")
+    if not candidates:
+        log("Новых новостей нет — выходим без ошибки.")
+        return
+
+    posted = 0
+    for it in candidates:
+        if posted >= MAX_POSTS_PER_RUN:
+            break
+        log("->", it["title"], f"(score {it['interestScore']})")
+        try:
+            caption = rewrite(it)
+        except Exception as ex:
+            log("Gemini ошибка, пропускаю:", ex)
+            continue
+
+        photo = None
+        kind = None
+        photo_id = None
+        credit = None
+        for src in IMAGE_SOURCES:
+            if src == "commons":
+                res = fetch_commons_photo(it, used_ids)
+            elif src == "openverse":
+                res = fetch_openverse_photo(it, used_ids)
+            else:
+                log("Неизвестный источник картинок:", src)
+                continue
+            if not res:
+                continue
+            try:
+                photo = watermark(res["bytes"])
+                kind, photo_id, credit = src, res.get("id"), res.get("credit")
+                break
+            except Exception as ex:
+                log(f"Картинка из {src} не обработана:", ex)
+
+        footer_plain, footer_html = "", ""
+        if photo and credit:
+            footer_plain += f"\n\n{credit['text']}"
+            footer_html += f"\n\n{credit['html']}"
+        if SOURCE_LINK:
+            sep = "\n" if footer_plain else "\n\n"
+            footer_plain += f"{sep}🔗 Источник: {it['url']}"
+            footer_html += f"{sep}🔗 Источник: {html.escape(it['url'])}"
+
+        if DRY_RUN:
+            log("DRY RUN, не отправляю:\n", caption + footer_plain)
+            log("HTML-подпись:", footer_html.strip() or "нет")
+            log("Картинка:", f"{kind}, {len(photo) // 1024} КБ" if photo else "нет")
+        else:
+            try:
+                send_post(caption, photo, footer_plain, footer_html)
+            except Exception as ex:
+                log("Отправка не удалась:", ex)
+                continue
+            state.append({
+                "normalizedUrl": it["normalizedUrl"],
+                "normalizedTitle": it["normalizedTitle"],
+                "source": it["source"],
+                "photoId": photo_id,
+                "publishedAt": it["_date"].isoformat(),
+                "addedAt": datetime.now(timezone.utc).isoformat(),
+            })
+            save_state(state)
+        posted += 1
+    log(f"Опубликовано: {posted}")
+
+
+if __name__ == "__main__":
+    main()
