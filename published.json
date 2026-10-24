@@ -419,5 +419,13 @@
   "photoId": null,
   "publishedAt": "2026-10-23T16:10:27+03:00",
   "addedAt": "2026-10-23T18:02:04.654095+00:00"
+ },
+ {
+  "normalizedUrl": "https://www.belnovosti.by/minsk/v-minske-zadumalis-o-tom-chtoby-pustit-tramvai-v-metro",
+  "normalizedTitle": "в минске задумались о том чтобы пустить трамваи в метро",
+  "source": "belnovosti.by",
+  "photoId": "cm:79646659",
+  "publishedAt": "2026-10-23T18:20:00+03:00",
+  "addedAt": "2026-10-24T05:01:34.495469+00:00"
  }
 ]
