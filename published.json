@@ -1,26 +1,5 @@
 [
  {
-  "normalizedUrl": "https://www.belnovosti.by/minsk/polnyy-zapret-na-elektrosamokaty-v-minske-chto-skazali-vlasti",
-  "normalizedTitle": "полный запрет на электросамокаты в минске что сказали власти",
-  "source": "belnovosti.by",
-  "publishedAt": "2026-10-10T01:30:00+03:00",
-  "addedAt": "2026-10-10T05:01:34.902624+00:00"
- },
- {
-  "normalizedUrl": "https://auto.onliner.by/go/1269629",
-  "normalizedTitle": "четыре пенсионера оказались в больнице после дтп на проспекте победителей видео",
-  "source": "onliner.by",
-  "publishedAt": "2026-10-10T12:28:36+03:00",
-  "addedAt": "2026-10-10T13:01:48.237105+00:00"
- },
- {
-  "normalizedUrl": "https://www.belnovosti.by/minsk/stalo-izvestno-kak-minsk-budet-reshat-problemu-probok",
-  "normalizedTitle": "стало известно как минск будет решать проблему пробок",
-  "source": "belnovosti.by",
-  "publishedAt": "2026-10-10T10:40:00+03:00",
-  "addedAt": "2026-10-10T18:01:29.579179+00:00"
- },
- {
   "normalizedUrl": "https://sport.onliner.by/go/42447",
   "normalizedTitle": "неудачный вечер для зубров минское динамо разгромили со счетом 6 1",
   "source": "onliner.by",
@@ -747,5 +726,13 @@
   "photoId": "cm:155176555",
   "publishedAt": "2026-11-09T08:00:10+03:00",
   "addedAt": "2026-11-09T05:01:28.674102+00:00"
+ },
+ {
+  "normalizedUrl": "https://auto.onliner.by/go/1273986",
+  "normalizedTitle": "в минске водителю volkswagen стало плохо за рулем он вылетел с дороги и сбил пешехода",
+  "source": "onliner.by",
+  "photoId": "ov:3b38e36f-2d61-48a5-8cc0-0cfc707d7937",
+  "publishedAt": "2026-11-09T14:21:48+03:00",
+  "addedAt": "2026-11-09T18:02:09.184874+00:00"
  }
 ]
