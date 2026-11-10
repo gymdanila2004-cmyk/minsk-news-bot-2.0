@@ -1,29 +1,5 @@
 [
  {
-  "normalizedUrl": "https://sport.onliner.by/go/42447",
-  "normalizedTitle": "неудачный вечер для зубров минское динамо разгромили со счетом 6 1",
-  "source": "onliner.by",
-  "photoId": null,
-  "publishedAt": "2026-10-10T20:36:31+03:00",
-  "addedAt": "2026-10-10T18:15:00.512886+00:00"
- },
- {
-  "normalizedUrl": "https://www.belnovosti.by/minsk/skidki-do-70-kuda-idti-za-pokupkami-v-minske-10-i-11-oktyabrya-2026-goda",
-  "normalizedTitle": "скидки до 70 куда идти за покупками в минске 10 и 11 октября 2026 года",
-  "source": "belnovosti.by",
-  "photoId": "cm:187449389",
-  "publishedAt": "2026-10-10T12:40:00+03:00",
-  "addedAt": "2026-10-10T18:24:55.183864+00:00"
- },
- {
-  "normalizedUrl": "https://www.belnovosti.by/minsk/situaciya-s-parkovkami-v-minske-bolee-500-pretenziy-poluchili-narushiteli",
-  "normalizedTitle": "ситуация с парковками в минске более 500 претензий получили нарушители",
-  "source": "belnovosti.by",
-  "photoId": "ov:f0667832-0b15-4ea3-88d2-9df5fd8f4688",
-  "publishedAt": "2026-10-10T05:45:00+03:00",
-  "addedAt": "2026-10-10T18:31:56.238147+00:00"
- },
- {
   "normalizedUrl": "https://auto.onliner.by/go/1269742",
   "normalizedTitle": "в минске 11 летний мальчик на велосипеде попал под машину видео",
   "source": "onliner.by",
@@ -734,5 +710,13 @@
   "photoId": "ov:3b38e36f-2d61-48a5-8cc0-0cfc707d7937",
   "publishedAt": "2026-11-09T14:21:48+03:00",
   "addedAt": "2026-11-09T18:02:09.184874+00:00"
+ },
+ {
+  "normalizedUrl": "https://www.belnovosti.by/minsk/v-gai-raskryli-podrobnosti-avarii-s-chetyrmya-mashinami-na-mkad",
+  "normalizedTitle": "в гаи раскрыли подробности аварии с четырьмя машинами на мкад",
+  "source": "belnovosti.by",
+  "photoId": "ov:5a9825a9-e3d4-4d60-9c78-f5f0339f7fe9",
+  "publishedAt": "2026-11-09T22:40:00+03:00",
+  "addedAt": "2026-11-10T05:01:53.438827+00:00"
  }
 ]
