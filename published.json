@@ -1,37 +1,5 @@
 [
  {
-  "normalizedUrl": "https://auto.onliner.by/go/1269742",
-  "normalizedTitle": "в минске 11 летний мальчик на велосипеде попал под машину видео",
-  "source": "onliner.by",
-  "photoId": null,
-  "publishedAt": "2026-10-11T10:46:51+03:00",
-  "addedAt": "2026-10-11T09:50:05.366337+00:00"
- },
- {
-  "normalizedUrl": "https://auto.onliner.by/go/1269754",
-  "normalizedTitle": "под минском дорогу перебежало целое стадо кабанов видео",
-  "source": "onliner.by",
-  "photoId": "cm:57938407",
-  "publishedAt": "2026-10-11T11:21:48+03:00",
-  "addedAt": "2026-10-11T10:22:15.621293+00:00"
- },
- {
-  "normalizedUrl": "https://people.onliner.by/go/1338344",
-  "normalizedTitle": "из дубая в минск доставили гражданина мадагаскара его разыскивал интерпол",
-  "source": "onliner.by",
-  "photoId": "ov:e9086566-2acd-45f2-89f6-e545e85775ef",
-  "publishedAt": "2026-10-11T13:35:01+03:00",
-  "addedAt": "2026-10-11T11:26:28.873797+00:00"
- },
- {
-  "normalizedUrl": "https://auto.onliner.by/go/1269737",
-  "normalizedTitle": "таксист обиделся что пассажир не поздоровался все закончилось дракой и судом",
-  "source": "onliner.by",
-  "photoId": "cm:23045519",
-  "publishedAt": "2026-10-11T10:39:47+03:00",
-  "addedAt": "2026-10-11T13:01:33.063954+00:00"
- },
- {
   "normalizedUrl": "https://realt.onliner.by/go/1135852",
   "normalizedTitle": "принимаем новостройку как обычному дольщику переварить апартаменты в минск мире",
   "source": "onliner.by",
@@ -718,5 +686,13 @@
   "photoId": "ov:5a9825a9-e3d4-4d60-9c78-f5f0339f7fe9",
   "publishedAt": "2026-11-09T22:40:00+03:00",
   "addedAt": "2026-11-10T05:01:53.438827+00:00"
+ },
+ {
+  "normalizedUrl": "https://www.belnovosti.by/minsk/na-mkad-stolknulis-geely-belgee-i-bmw",
+  "normalizedTitle": "на мкад столкнулись geely belgee и bmw",
+  "source": "belnovosti.by",
+  "photoId": "ov:61f24399-aec0-44b1-af76-afefe9828410",
+  "publishedAt": "2026-11-09T21:40:00+03:00",
+  "addedAt": "2026-11-10T13:01:37.057117+00:00"
  }
 ]
