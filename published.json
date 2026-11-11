@@ -1,21 +1,5 @@
 [
  {
-  "normalizedUrl": "https://tech.onliner.by/go/796616",
-  "normalizedTitle": "белорус воссоздал минское метро в игровом симуляторе",
-  "source": "onliner.by",
-  "photoId": "ov:1967bbd4-30f1-4c31-9df5-416661abdeeb",
-  "publishedAt": "2026-10-12T13:17:17+03:00",
-  "addedAt": "2026-10-12T13:01:55.303930+00:00"
- },
- {
-  "normalizedUrl": "https://www.belnovosti.by/minsk/v-minske-vklyuchayut-otoplenie-v-administrativnyh-zdaniyah",
-  "normalizedTitle": "в минске включают отопление в административных зданиях",
-  "source": "belnovosti.by",
-  "photoId": "ov:bcf3aead-5cc7-4ceb-b5c7-ea1abe925f71",
-  "publishedAt": "2026-10-12T14:55:59+03:00",
-  "addedAt": "2026-10-12T18:01:30.093362+00:00"
- },
- {
   "normalizedUrl": "https://auto.onliner.by/go/839693",
   "normalizedTitle": "помните эти рижские трамвайчики как минск пересел с ретро на хайтек",
   "source": "onliner.by",
@@ -710,5 +694,13 @@
   "photoId": "cm:24958921",
   "publishedAt": "2026-11-11T14:49:20+03:00",
   "addedAt": "2026-11-11T13:01:44.988364+00:00"
+ },
+ {
+  "normalizedUrl": "https://www.belnovosti.by/minsk/kto-vinovat-poyavilis-podrobnosti-dtp-s-marshrutkoy-v-minske",
+  "normalizedTitle": "кто виноват появились подробности дтп с маршруткой в минске",
+  "source": "belnovosti.by",
+  "photoId": "cm:57938407",
+  "publishedAt": "2026-11-11T11:24:49+03:00",
+  "addedAt": "2026-11-11T18:01:39.208295+00:00"
  }
 ]
