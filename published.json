@@ -1,13 +1,5 @@
 [
  {
-  "normalizedUrl": "https://realt.onliner.by/go/1136408",
-  "normalizedTitle": "у нас сгорела вся кухня в солигорске кошка прыгнула на сенсорную плиту и устроила пожар",
-  "source": "onliner.by",
-  "photoId": "cm:110993142",
-  "publishedAt": "2026-10-13T15:24:31+03:00",
-  "addedAt": "2026-10-13T13:01:52.120982+00:00"
- },
- {
   "normalizedUrl": "https://money.onliner.by/go/350268",
   "normalizedTitle": "мужчина привез в беларусь 40 тысяч долларов наличными на таможне возникли проблемы",
   "source": "onliner.by",
@@ -702,5 +694,13 @@
   "photoId": "ov:591ea59c-d7bb-4583-b275-60338ceeb376",
   "publishedAt": "2026-11-11T10:58:41+03:00",
   "addedAt": "2026-11-12T05:01:40.371009+00:00"
+ },
+ {
+  "normalizedUrl": "https://money.onliner.by/go/354889",
+  "normalizedTitle": "минчанин приехал на встречу со знакомым и лишился 2000 тот угрожал ему пистолетом видео",
+  "source": "onliner.by",
+  "photoId": null,
+  "publishedAt": "2026-11-12T14:51:02+03:00",
+  "addedAt": "2026-11-12T13:02:47.481798+00:00"
  }
 ]
