@@ -1,21 +1,5 @@
 [
  {
-  "normalizedUrl": "https://money.onliner.by/go/350268",
-  "normalizedTitle": "мужчина привез в беларусь 40 тысяч долларов наличными на таможне возникли проблемы",
-  "source": "onliner.by",
-  "photoId": "cm:9559670",
-  "publishedAt": "2026-10-13T17:04:40+03:00",
-  "addedAt": "2026-10-13T18:05:27.985040+00:00"
- },
- {
-  "normalizedUrl": "https://auto.onliner.by/go/1270102",
-  "normalizedTitle": "в минске 15 летняя девочка катала подругу на электросамокате их сбила машина",
-  "source": "onliner.by",
-  "photoId": "cm:59021074",
-  "publishedAt": "2026-10-13T18:44:39+03:00",
-  "addedAt": "2026-10-14T05:01:36.878332+00:00"
- },
- {
   "normalizedUrl": "https://auto.onliner.by/go/1270188",
   "normalizedTitle": "водитель специально ездил на иностранных номерах и нарушал пдд но сотрудники гаи нашли его видео",
   "source": "onliner.by",
@@ -710,5 +694,13 @@
   "photoId": "cm:153605446",
   "publishedAt": "2026-11-12T19:50:55+03:00",
   "addedAt": "2026-11-12T18:02:06.437678+00:00"
+ },
+ {
+  "normalizedUrl": "https://auto.onliner.by/go/1274573",
+  "normalizedTitle": "видео водитель faw поворачивал налево и сбил женщину пешеход в больнице видео",
+  "source": "onliner.by",
+  "photoId": "cm:110993142",
+  "publishedAt": "2026-11-12T17:00:30+03:00",
+  "addedAt": "2026-11-13T05:01:43.208260+00:00"
  }
 ]
