@@ -1,13 +1,5 @@
 [
  {
-  "normalizedUrl": "https://auto.onliner.by/go/1270258",
-  "normalizedTitle": "13 летний мальчик пересекал дорогу на электросамокате и попал под машину",
-  "source": "onliner.by",
-  "photoId": "cm:59021070",
-  "publishedAt": "2026-10-14T20:46:40+03:00",
-  "addedAt": "2026-10-14T18:01:31.224404+00:00"
- },
- {
   "normalizedUrl": "https://money.onliner.by/go/350366",
   "normalizedTitle": "до сих пор жду ее звонка минчанин рассказал как потерял маму после звонков мошенников",
   "source": "onliner.by",
@@ -702,5 +694,13 @@
   "photoId": null,
   "publishedAt": "2026-11-13T10:40:54+03:00",
   "addedAt": "2026-11-13T13:02:36.947655+00:00"
+ },
+ {
+  "normalizedUrl": "https://auto.onliner.by/go/1274754",
+  "normalizedTitle": "из за аварии на рокоссовского остановились троллейбусы видео видео",
+  "source": "onliner.by",
+  "photoId": "cm:3006850",
+  "publishedAt": "2026-11-13T18:53:34+03:00",
+  "addedAt": "2026-11-13T18:01:33.030927+00:00"
  }
 ]
