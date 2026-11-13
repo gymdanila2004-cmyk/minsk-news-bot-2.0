@@ -1,13 +1,5 @@
 [
  {
-  "normalizedUrl": "https://auto.onliner.by/go/1270188",
-  "normalizedTitle": "водитель специально ездил на иностранных номерах и нарушал пдд но сотрудники гаи нашли его видео",
-  "source": "onliner.by",
-  "photoId": "cm:57938403",
-  "publishedAt": "2026-10-14T15:50:25+03:00",
-  "addedAt": "2026-10-14T13:01:36.672368+00:00"
- },
- {
   "normalizedUrl": "https://auto.onliner.by/go/1270258",
   "normalizedTitle": "13 летний мальчик пересекал дорогу на электросамокате и попал под машину",
   "source": "onliner.by",
@@ -702,5 +694,13 @@
   "photoId": "cm:110993142",
   "publishedAt": "2026-11-12T17:00:30+03:00",
   "addedAt": "2026-11-13T05:01:43.208260+00:00"
+ },
+ {
+  "normalizedUrl": "https://sport.onliner.by/go/48892",
+  "normalizedTitle": "беларусь сыграет в лиге наций уефа соболенко на итоговом турнире wta анонс выходных",
+  "source": "onliner.by",
+  "photoId": null,
+  "publishedAt": "2026-11-13T10:40:54+03:00",
+  "addedAt": "2026-11-13T13:02:36.947655+00:00"
  }
 ]
