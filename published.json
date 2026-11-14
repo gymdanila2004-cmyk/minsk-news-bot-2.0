@@ -1,13 +1,5 @@
 [
  {
-  "normalizedUrl": "https://money.onliner.by/go/350366",
-  "normalizedTitle": "до сих пор жду ее звонка минчанин рассказал как потерял маму после звонков мошенников",
-  "source": "onliner.by",
-  "photoId": "cm:80399769",
-  "publishedAt": "2026-10-15T08:00:03+03:00",
-  "addedAt": "2026-10-15T05:01:38.545407+00:00"
- },
- {
   "normalizedUrl": "https://auto.onliner.by/go/1264171",
   "normalizedTitle": "нужно быть очень смелым чтобы так перестраиваться под бетономешалку видео видео обновлено",
   "source": "onliner.by",
@@ -710,5 +702,13 @@
   "photoId": "cm:9559670",
   "publishedAt": "2026-11-13T17:00:00+03:00",
   "addedAt": "2026-11-14T05:01:32.671355+00:00"
+ },
+ {
+  "normalizedUrl": "https://auto.onliner.by/go/1274789",
+  "normalizedTitle": "три человека погибли в дтп с микроавтобусом и фурой под минском",
+  "source": "onliner.by",
+  "photoId": "cm:59021070",
+  "publishedAt": "2026-11-14T09:56:33+03:00",
+  "addedAt": "2026-11-14T13:01:19.982041+00:00"
  }
 ]
