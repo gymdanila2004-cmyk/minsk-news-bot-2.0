@@ -1,13 +1,5 @@
 [
  {
-  "normalizedUrl": "https://www.belnovosti.by/minsk/v-minske-pri-pozhare-v-obshchezhitii-pogib-muzhchina-zhenshchina-gospitalizirovana",
-  "normalizedTitle": "в минске при пожаре в общежитии погиб мужчина женщина госпитализирована",
-  "source": "belnovosti.by",
-  "photoId": "cm:80400280",
-  "publishedAt": "2026-10-16T09:01:45+03:00",
-  "addedAt": "2026-10-16T13:01:51.633378+00:00"
- },
- {
   "normalizedUrl": "https://www.belnovosti.by/minsk/v-minske-shkolnik-na-velosipede-ugodil-pod-mashinu-na-perekrestke",
   "normalizedTitle": "в минске школьник на велосипеде угодил под машину на перекрестке",
   "source": "belnovosti.by",
@@ -710,5 +702,13 @@
   "photoId": "cm:57938403",
   "publishedAt": "2026-11-15T15:59:51+03:00",
   "addedAt": "2026-11-15T13:01:29.265638+00:00"
+ },
+ {
+  "normalizedUrl": "https://auto.onliner.by/go/1274923",
+  "normalizedTitle": "под минском пьяный водитель устроил дтп оказалось с 2 52 промилле он ехал на работу",
+  "source": "onliner.by",
+  "photoId": "cm:180533265",
+  "publishedAt": "2026-11-15T13:59:44+03:00",
+  "addedAt": "2026-11-15T18:01:43.647573+00:00"
  }
 ]
