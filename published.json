@@ -1,21 +1,5 @@
 [
  {
-  "normalizedUrl": "https://auto.onliner.by/go/1270414",
-  "normalizedTitle": "стоимость мойки автомобиля привязали к погоде в пасмурные дни дешевле",
-  "source": "onliner.by",
-  "photoId": "cm:154583831",
-  "publishedAt": "2026-10-15T13:08:31+03:00",
-  "addedAt": "2026-10-15T18:02:03.951453+00:00"
- },
- {
-  "normalizedUrl": "https://realt.onliner.by/go/1136938",
-  "normalizedTitle": "1 при пожаре в общежитии на проспекте пушкина спасли 11 человек один мужчина погиб видео",
-  "source": "onliner.by",
-  "photoId": "cm:65928544",
-  "publishedAt": "2026-10-15T23:57:34+03:00",
-  "addedAt": "2026-10-16T05:01:36.405007+00:00"
- },
- {
   "normalizedUrl": "https://www.belnovosti.by/minsk/v-minske-pri-pozhare-v-obshchezhitii-pogib-muzhchina-zhenshchina-gospitalizirovana",
   "normalizedTitle": "в минске при пожаре в общежитии погиб мужчина женщина госпитализирована",
   "source": "belnovosti.by",
@@ -710,5 +694,13 @@
   "photoId": null,
   "publishedAt": "2026-11-14T20:40:39+03:00",
   "addedAt": "2026-11-14T18:01:40.987102+00:00"
+ },
+ {
+  "normalizedUrl": "https://auto.onliner.by/go/1274812",
+  "normalizedTitle": "показали почти готовую дорогу колядичи гатово когда открытие видео",
+  "source": "onliner.by",
+  "photoId": "cm:59021074",
+  "publishedAt": "2026-11-14T15:10:27+03:00",
+  "addedAt": "2026-11-15T05:03:37.922763+00:00"
  }
 ]
