@@ -1,21 +1,5 @@
 [
  {
-  "normalizedUrl": "https://auto.onliner.by/go/1270814",
-  "normalizedTitle": "в минске на перекрестке перевернулся belgee что произошло видео",
-  "source": "onliner.by",
-  "photoId": "ov:7b3ba946-ad12-4583-af81-f3ada4218e2a",
-  "publishedAt": "2026-10-17T09:46:20+03:00",
-  "addedAt": "2026-10-17T13:01:48.147590+00:00"
- },
- {
-  "normalizedUrl": "https://www.belnovosti.by/minsk/nazvan-glavnyy-rassadnik-gryzunov-v-minske-eto-ne-obshchepit",
-  "normalizedTitle": "назван главный рассадник грызунов в минске это не общепит",
-  "source": "belnovosti.by",
-  "photoId": "cm:83200580",
-  "publishedAt": "2026-10-17T15:43:00+03:00",
-  "addedAt": "2026-10-17T18:01:30.821887+00:00"
- },
- {
   "normalizedUrl": "https://money.onliner.by/go/350937",
   "normalizedTitle": "белорусы снова выстроились в огромную очередь что раздают на этот раз",
   "source": "onliner.by",
@@ -710,5 +694,13 @@
   "photoId": "cm:80399769",
   "publishedAt": "2026-11-16T14:02:00+03:00",
   "addedAt": "2026-11-16T13:01:40.545520+00:00"
+ },
+ {
+  "normalizedUrl": "https://auto.onliner.by/go/1275082",
+  "normalizedTitle": "как будто автоподстава peugeot на мкад передумал перестраиваться чуть не случилось дтп видео",
+  "source": "onliner.by",
+  "photoId": "cm:133833326",
+  "publishedAt": "2026-11-16T18:21:34+03:00",
+  "addedAt": "2026-11-16T18:01:44.010476+00:00"
  }
 ]
