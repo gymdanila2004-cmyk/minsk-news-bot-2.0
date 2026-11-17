@@ -1,21 +1,5 @@
 [
  {
-  "normalizedUrl": "https://auto.onliner.by/go/1270995",
-  "normalizedTitle": "выезжал со двора и не пропустил машину в минске случилось дтп с тремя авто",
-  "source": "onliner.by",
-  "photoId": "ov:e8ab7ec4-4e8e-4db5-bfb1-09635790f3a0",
-  "publishedAt": "2026-10-18T15:56:01+03:00",
-  "addedAt": "2026-10-18T13:02:18.910378+00:00"
- },
- {
-  "normalizedUrl": "https://auto.onliner.by/go/1271005",
-  "normalizedTitle": "столкнулся с mercedes и несколько раз перевернулся в воздухе в минске пострадал мотоциклист видео",
-  "source": "onliner.by",
-  "photoId": "cm:116606134",
-  "publishedAt": "2026-10-18T16:13:51+03:00",
-  "addedAt": "2026-10-18T18:01:33.338922+00:00"
- },
- {
   "normalizedUrl": "https://www.belnovosti.by/minsk/v-minske-na-ulice-rafieva-stolknulis-tri-avtomobilya",
   "normalizedTitle": "в минске на улице рафиева столкнулись три автомобиля",
   "source": "belnovosti.by",
@@ -702,5 +686,13 @@
   "photoId": "ov:62a92aaa-b9d5-4280-be46-4acf75c81db0",
   "publishedAt": "2026-11-17T01:30:00+03:00",
   "addedAt": "2026-11-17T05:01:35.095391+00:00"
+ },
+ {
+  "normalizedUrl": "https://auto.onliner.by/go/1275292",
+  "normalizedTitle": "в минске на путепроводе перевернулся автомобиль bmw это попало на видео видео обновлено",
+  "source": "onliner.by",
+  "photoId": "cm:203378911",
+  "publishedAt": "2026-11-17T18:10:06+03:00",
+  "addedAt": "2026-11-17T18:01:49.497354+00:00"
  }
 ]
