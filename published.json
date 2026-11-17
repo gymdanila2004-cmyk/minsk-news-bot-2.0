@@ -1,13 +1,5 @@
 [
  {
-  "normalizedUrl": "https://money.onliner.by/go/350937",
-  "normalizedTitle": "белорусы снова выстроились в огромную очередь что раздают на этот раз",
-  "source": "onliner.by",
-  "photoId": "cm:157250992",
-  "publishedAt": "2026-10-17T14:49:10+03:00",
-  "addedAt": "2026-10-18T05:01:22.207999+00:00"
- },
- {
   "normalizedUrl": "https://auto.onliner.by/go/1270995",
   "normalizedTitle": "выезжал со двора и не пропустил машину в минске случилось дтп с тремя авто",
   "source": "onliner.by",
@@ -702,5 +694,13 @@
   "photoId": "cm:133833326",
   "publishedAt": "2026-11-16T18:21:34+03:00",
   "addedAt": "2026-11-16T18:01:44.010476+00:00"
+ },
+ {
+  "normalizedUrl": "https://www.belnovosti.by/minsk/passazhiram-minskogo-metro-napomnili-chto-nelzya-delat-s-vyklyuchatelyami-stop",
+  "normalizedTitle": "пассажирам минского метро напомнили что нельзя делать с выключателями stop",
+  "source": "belnovosti.by",
+  "photoId": "ov:62a92aaa-b9d5-4280-be46-4acf75c81db0",
+  "publishedAt": "2026-11-17T01:30:00+03:00",
+  "addedAt": "2026-11-17T05:01:35.095391+00:00"
  }
 ]
