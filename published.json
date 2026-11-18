@@ -1,13 +1,5 @@
 [
  {
-  "normalizedUrl": "https://auto.onliner.by/go/1271156",
-  "normalizedTitle": "в минск мире случилось массовое дтп в соцсетях считают его устроил подросток уезжая от гаи",
-  "source": "onliner.by",
-  "photoId": "cm:19324590",
-  "publishedAt": "2026-10-19T17:55:57+03:00",
-  "addedAt": "2026-10-19T18:01:36.590552+00:00"
- },
- {
   "normalizedUrl": "https://www.belnovosti.by/minsk/v-minske-stroyatsya-94-mnogokvartirnyh-doma-obshchey-ploshchadyu-okolo-900-tys-kvadratov",
   "normalizedTitle": "в минске строятся 94 многоквартирных дома общей площадью около 900 тыс квадратов",
   "source": "belnovosti.by",
@@ -694,5 +686,13 @@
   "photoId": null,
   "publishedAt": "2026-11-18T13:30:32+03:00",
   "addedAt": "2026-11-18T13:02:52.128287+00:00"
+ },
+ {
+  "normalizedUrl": "https://www.belnovosti.by/minsk/v-metro-minska-hotel-proyti-paren-s-trostyu-so-skrytym-lezviem",
+  "normalizedTitle": "в метро минска хотел пройти парень с тростью со скрытым лезвием",
+  "source": "belnovosti.by",
+  "photoId": "cm:79646669",
+  "publishedAt": "2026-11-18T15:26:00+03:00",
+  "addedAt": "2026-11-18T18:03:27.899396+00:00"
  }
 ]
