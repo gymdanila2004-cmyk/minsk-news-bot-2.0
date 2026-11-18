@@ -1,21 +1,5 @@
 [
  {
-  "normalizedUrl": "https://www.belnovosti.by/minsk/v-minske-na-ulice-rafieva-stolknulis-tri-avtomobilya",
-  "normalizedTitle": "в минске на улице рафиева столкнулись три автомобиля",
-  "source": "belnovosti.by",
-  "photoId": "cm:43156552",
-  "publishedAt": "2026-10-18T15:43:00+03:00",
-  "addedAt": "2026-10-19T05:01:43.519912+00:00"
- },
- {
-  "normalizedUrl": "https://www.belnovosti.by/minsk/upal-s-semimetrovoy-vysoty-na-stroyke-metro-v-minske-pogib-rabochiy",
-  "normalizedTitle": "упал с семиметровой высоты на стройке метро в минске погиб рабочий",
-  "source": "belnovosti.by",
-  "photoId": "cm:79646669",
-  "publishedAt": "2026-10-19T12:49:00+03:00",
-  "addedAt": "2026-10-19T13:01:29.990109+00:00"
- },
- {
   "normalizedUrl": "https://auto.onliner.by/go/1271156",
   "normalizedTitle": "в минск мире случилось массовое дтп в соцсетях считают его устроил подросток уезжая от гаи",
   "source": "onliner.by",
@@ -702,5 +686,13 @@
   "photoId": "cm:90966229",
   "publishedAt": "2026-11-17T08:15:35+03:00",
   "addedAt": "2026-11-18T05:01:35.537647+00:00"
+ },
+ {
+  "normalizedUrl": "https://realt.onliner.by/go/1143731",
+  "normalizedTitle": "разбитые окна мусор это про усадьбу в прилуках после того как она стала популярной",
+  "source": "onliner.by",
+  "photoId": null,
+  "publishedAt": "2026-11-18T13:30:32+03:00",
+  "addedAt": "2026-11-18T13:02:52.128287+00:00"
  }
 ]
