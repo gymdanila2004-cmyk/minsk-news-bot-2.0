@@ -1,13 +1,5 @@
 [
  {
-  "normalizedUrl": "https://www.belnovosti.by/minsk/v-minske-stroyatsya-94-mnogokvartirnyh-doma-obshchey-ploshchadyu-okolo-900-tys-kvadratov",
-  "normalizedTitle": "в минске строятся 94 многоквартирных дома общей площадью около 900 тыс квадратов",
-  "source": "belnovosti.by",
-  "photoId": "cm:80824051",
-  "publishedAt": "2026-10-20T02:30:00+03:00",
-  "addedAt": "2026-10-20T05:01:21.389268+00:00"
- },
- {
   "normalizedUrl": "https://auto.onliner.by/go/1271293",
   "normalizedTitle": "видео водитель маршрутки врезался в автобус в минске пострадала женщина видео",
   "source": "onliner.by",
@@ -694,5 +686,13 @@
   "photoId": "cm:79646669",
   "publishedAt": "2026-11-18T15:26:00+03:00",
   "addedAt": "2026-11-18T18:03:27.899396+00:00"
+ },
+ {
+  "normalizedUrl": "https://www.belnovosti.by/minsk/v-minske-gai-provodit-reydy-kogo-proveryayut",
+  "normalizedTitle": "в минске гаи проводит рейды кого проверяют",
+  "source": "belnovosti.by",
+  "photoId": "cm:43156552",
+  "publishedAt": "2026-11-18T19:27:44+03:00",
+  "addedAt": "2026-11-19T05:01:42.209024+00:00"
  }
 ]
