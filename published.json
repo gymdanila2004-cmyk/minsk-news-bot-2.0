@@ -1,13 +1,5 @@
 [
  {
-  "normalizedUrl": "https://auto.onliner.by/go/1271293",
-  "normalizedTitle": "видео водитель маршрутки врезался в автобус в минске пострадала женщина видео",
-  "source": "onliner.by",
-  "photoId": "cm:2098328",
-  "publishedAt": "2026-10-20T13:40:53+03:00",
-  "addedAt": "2026-10-20T13:01:55.379300+00:00"
- },
- {
   "normalizedUrl": "https://auto.onliner.by/go/1271346",
   "normalizedTitle": "в минске li xiang врезался в ограждение на третьем уровне развязки видео",
   "source": "onliner.by",
@@ -694,5 +686,13 @@
   "photoId": "cm:43156552",
   "publishedAt": "2026-11-18T19:27:44+03:00",
   "addedAt": "2026-11-19T05:01:42.209024+00:00"
+ },
+ {
+  "normalizedUrl": "https://auto.onliner.by/go/1245534",
+  "normalizedTitle": "серьезная авария с электробусом в минске суд вынес приговор видео обновлено",
+  "source": "onliner.by",
+  "photoId": "cm:19324590",
+  "publishedAt": "2026-11-19T16:53:56+03:00",
+  "addedAt": "2026-11-19T18:01:49.960767+00:00"
  }
 ]
