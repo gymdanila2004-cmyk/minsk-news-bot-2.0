@@ -1,21 +1,5 @@
 [
  {
-  "normalizedUrl": "https://auto.onliner.by/go/1271346",
-  "normalizedTitle": "в минске li xiang врезался в ограждение на третьем уровне развязки видео",
-  "source": "onliner.by",
-  "photoId": "cm:30169365",
-  "publishedAt": "2026-10-20T19:10:44+03:00",
-  "addedAt": "2026-10-20T18:02:15.905154+00:00"
- },
- {
-  "normalizedUrl": "https://www.belnovosti.by/minsk/volkswagen-okazalsya-na-kryshe-posle-massovoy-avarii-v-minske",
-  "normalizedTitle": "volkswagen оказался на крыше после массовой аварии в минске",
-  "source": "belnovosti.by",
-  "photoId": "cm:31217934",
-  "publishedAt": "2026-10-20T13:40:00+03:00",
-  "addedAt": "2026-10-21T05:01:40.035265+00:00"
- },
- {
   "normalizedUrl": "https://people.onliner.by/go/1340363",
   "normalizedTitle": "тихий парень жил один подробности чп на логойском тракте и комментарий ск обновлено",
   "source": "onliner.by",
@@ -694,5 +678,13 @@
   "photoId": "cm:19324590",
   "publishedAt": "2026-11-19T16:53:56+03:00",
   "addedAt": "2026-11-19T18:01:49.960767+00:00"
+ },
+ {
+  "normalizedUrl": "https://money.onliner.by/go/356111",
+  "normalizedTitle": "почему надо переплачивать мужчина пожаловался на стоимость билетов на автобус в аэропорт",
+  "source": "onliner.by",
+  "photoId": "cm:198497403",
+  "publishedAt": "2026-11-19T17:00:59+03:00",
+  "addedAt": "2026-11-20T05:01:44.260867+00:00"
  }
 ]
