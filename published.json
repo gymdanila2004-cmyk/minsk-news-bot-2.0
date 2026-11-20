@@ -1,13 +1,5 @@
 [
  {
-  "normalizedUrl": "https://people.onliner.by/go/1340363",
-  "normalizedTitle": "тихий парень жил один подробности чп на логойском тракте и комментарий ск обновлено",
-  "source": "onliner.by",
-  "photoId": "cm:140209515",
-  "publishedAt": "2026-10-21T10:02:38+03:00",
-  "addedAt": "2026-10-21T13:02:22.469545+00:00"
- },
- {
   "normalizedUrl": "https://www.belnovosti.by/minsk/v-minske-rabochiy-pogib-provalivshis-skvoz-kryshu-sklada",
   "normalizedTitle": "в минске рабочий погиб провалившись сквозь крышу склада",
   "source": "belnovosti.by",
@@ -686,5 +678,13 @@
   "photoId": "cm:198497403",
   "publishedAt": "2026-11-19T17:00:59+03:00",
   "addedAt": "2026-11-20T05:01:44.260867+00:00"
+ },
+ {
+  "normalizedUrl": "https://auto.onliner.by/go/1254295",
+  "normalizedTitle": "пока водители на мкад разбирались с дтп в них въехала еще одна машина обновлено",
+  "source": "onliner.by",
+  "photoId": "cm:116606134",
+  "publishedAt": "2026-11-20T16:44:44+03:00",
+  "addedAt": "2026-11-20T18:02:08.533809+00:00"
  }
 ]
