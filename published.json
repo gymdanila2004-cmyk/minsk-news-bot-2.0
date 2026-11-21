@@ -1,21 +1,5 @@
 [
  {
-  "normalizedUrl": "https://www.belnovosti.by/minsk/v-minske-rabochiy-pogib-provalivshis-skvoz-kryshu-sklada",
-  "normalizedTitle": "в минске рабочий погиб провалившись сквозь крышу склада",
-  "source": "belnovosti.by",
-  "photoId": "cm:115643550",
-  "publishedAt": "2026-10-21T18:45:00+03:00",
-  "addedAt": "2026-10-21T18:02:18.313842+00:00"
- },
- {
-  "normalizedUrl": "https://auto.onliner.by/go/1271481",
-  "normalizedTitle": "выбежал из за стоящего автомобиля водитель наехал на 6 летнего мальчика видео обновлено",
-  "source": "onliner.by",
-  "photoId": "cm:116606132",
-  "publishedAt": "2026-10-21T16:50:43+03:00",
-  "addedAt": "2026-10-22T05:01:32.881866+00:00"
- },
- {
   "normalizedUrl": "https://people.onliner.by/go/1340629",
   "normalizedTitle": "пациентка поступила с тяжелым диагнозом в минске провели уникальную операцию",
   "source": "onliner.by",
@@ -686,5 +670,13 @@
   "photoId": "cm:116606134",
   "publishedAt": "2026-11-20T16:44:44+03:00",
   "addedAt": "2026-11-20T18:02:08.533809+00:00"
+ },
+ {
+  "normalizedUrl": "https://sport.onliner.by/go/50198",
+  "normalizedTitle": "шарангович против левшунова в нхл развязка в футбольной вышке анонс выходных",
+  "source": "onliner.by",
+  "photoId": "cm:11940260",
+  "publishedAt": "2026-11-20T16:01:12+03:00",
+  "addedAt": "2026-11-21T05:01:36.833307+00:00"
  }
 ]
