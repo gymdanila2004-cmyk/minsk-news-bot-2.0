@@ -1,21 +1,5 @@
 [
  {
-  "normalizedUrl": "https://realt.onliner.by/go/1138275",
-  "normalizedTitle": "приготовьтесь завидовать показываем дом из которого не хочется никуда уходить",
-  "source": "onliner.by",
-  "photoId": "cm:95531514",
-  "publishedAt": "2026-10-22T16:59:38+03:00",
-  "addedAt": "2026-10-22T18:01:48.233942+00:00"
- },
- {
-  "normalizedUrl": "https://sport.onliner.by/go/44964",
-  "normalizedTitle": "минское динамо уступило худшей команде кхл",
-  "source": "onliner.by",
-  "photoId": "cm:4998021",
-  "publishedAt": "2026-10-22T22:07:39+03:00",
-  "addedAt": "2026-10-23T05:01:30.135681+00:00"
- },
- {
   "normalizedUrl": "https://sport.onliner.by/go/45078",
   "normalizedTitle": "динамо в кхл барселона против реала и не только анонс спортивных выходных",
   "source": "onliner.by",
@@ -686,5 +670,13 @@
   "photoId": "cm:2098328",
   "publishedAt": "2026-11-21T09:40:00+03:00",
   "addedAt": "2026-11-21T18:01:42.523701+00:00"
+ },
+ {
+  "normalizedUrl": "https://auto.onliner.by/go/1275929",
+  "normalizedTitle": "в минске у водителя начались судороги за рулем машина врезалась в дерево видео видео",
+  "source": "onliner.by",
+  "photoId": "cm:116606132",
+  "publishedAt": "2026-11-21T09:41:23+03:00",
+  "addedAt": "2026-11-22T05:01:31.335388+00:00"
  }
 ]
