@@ -1,13 +1,5 @@
 [
  {
-  "normalizedUrl": "https://sport.onliner.by/go/45078",
-  "normalizedTitle": "динамо в кхл барселона против реала и не только анонс спортивных выходных",
-  "source": "onliner.by",
-  "photoId": "cm:50829689",
-  "publishedAt": "2026-10-23T11:12:43+03:00",
-  "addedAt": "2026-10-23T13:01:31.637513+00:00"
- },
- {
   "normalizedUrl": "https://auto.onliner.by/go/1271698",
   "normalizedTitle": "на мкад водитель не справился с управлением и влетел в ограждение поиск очевидцев видео обновлено",
   "source": "onliner.by",
@@ -678,5 +670,13 @@
   "photoId": "cm:116606132",
   "publishedAt": "2026-11-21T09:41:23+03:00",
   "addedAt": "2026-11-22T05:01:31.335388+00:00"
+ },
+ {
+  "normalizedUrl": "https://people.onliner.by/go/1346656",
+  "normalizedTitle": "в минске мужчина умер во время приема в частном медцентре",
+  "source": "onliner.by",
+  "photoId": "cm:69792034",
+  "publishedAt": "2026-11-22T15:04:35+03:00",
+  "addedAt": "2026-11-22T13:01:33.529681+00:00"
  }
 ]
