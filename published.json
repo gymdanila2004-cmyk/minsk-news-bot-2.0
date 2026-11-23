@@ -1,21 +1,5 @@
 [
  {
-  "normalizedUrl": "https://auto.onliner.by/go/1271698",
-  "normalizedTitle": "на мкад водитель не справился с управлением и влетел в ограждение поиск очевидцев видео обновлено",
-  "source": "onliner.by",
-  "photoId": null,
-  "publishedAt": "2026-10-23T16:10:27+03:00",
-  "addedAt": "2026-10-23T18:02:04.654095+00:00"
- },
- {
-  "normalizedUrl": "https://www.belnovosti.by/minsk/v-minske-zadumalis-o-tom-chtoby-pustit-tramvai-v-metro",
-  "normalizedTitle": "в минске задумались о том чтобы пустить трамваи в метро",
-  "source": "belnovosti.by",
-  "photoId": "cm:79646659",
-  "publishedAt": "2026-10-23T18:20:00+03:00",
-  "addedAt": "2026-10-24T05:01:34.495469+00:00"
- },
- {
   "normalizedUrl": "https://sport.onliner.by/go/45339",
   "normalizedTitle": "в минске простились с экс вратарем сборной страны юрием цыгалко фото",
   "source": "onliner.by",
@@ -686,5 +670,13 @@
   "photoId": "cm:197062757",
   "publishedAt": "2026-11-22T17:30:56+03:00",
   "addedAt": "2026-11-22T18:01:20.341076+00:00"
+ },
+ {
+  "normalizedUrl": "https://sport.onliner.by/go/50378",
+  "normalizedTitle": "минское динамо обыграло барыс",
+  "source": "onliner.by",
+  "photoId": "cm:201480369",
+  "publishedAt": "2026-11-22T17:10:45+03:00",
+  "addedAt": "2026-11-23T05:01:37.903106+00:00"
  }
 ]
