@@ -1,13 +1,5 @@
 [
  {
-  "normalizedUrl": "https://sport.onliner.by/go/45339",
-  "normalizedTitle": "в минске простились с экс вратарем сборной страны юрием цыгалко фото",
-  "source": "onliner.by",
-  "photoId": "cm:145442398",
-  "publishedAt": "2026-10-24T14:53:10+03:00",
-  "addedAt": "2026-10-24T13:01:36.878253+00:00"
- },
- {
   "normalizedUrl": "https://people.onliner.by/go/1338736",
   "normalizedTitle": "в беларуси есть деньги но людям все равно чего то не хватает ланкиец о странных нас",
   "source": "onliner.by",
@@ -686,5 +678,13 @@
   "photoId": "cm:115993927",
   "publishedAt": "2026-11-23T12:14:21+03:00",
   "addedAt": "2026-11-23T13:01:29.724391+00:00"
+ },
+ {
+  "normalizedUrl": "https://auto.onliner.by/go/1276161",
+  "normalizedTitle": "в минске скорая столкнулась с каршеринговым авто двое пострадавших видео",
+  "source": "onliner.by",
+  "photoId": "cm:30169365",
+  "publishedAt": "2026-11-23T17:05:53+03:00",
+  "addedAt": "2026-11-23T18:01:32.718979+00:00"
  }
 ]
