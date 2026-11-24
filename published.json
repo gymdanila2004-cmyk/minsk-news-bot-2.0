@@ -1,13 +1,5 @@
 [
  {
-  "normalizedUrl": "https://www.belnovosti.by/minsk/v-minske-25-letnyaya-voditel-vyletela-na-vstrechku-i-stolknulas-s-furoy",
-  "normalizedTitle": "в минске 25 летняя водитель вылетела на встречку и столкнулась с фурой",
-  "source": "belnovosti.by",
-  "photoId": null,
-  "publishedAt": "2026-10-25T14:00:00+03:00",
-  "addedAt": "2026-10-25T13:01:54.972124+00:00"
- },
- {
   "normalizedUrl": "https://auto.onliner.by/go/1272001",
   "normalizedTitle": "в минске водитель каршеринга устроил дтп с тремя автомобилями оказалось он был пьян",
   "source": "onliner.by",
@@ -678,5 +670,13 @@
   "photoId": "cm:149878833",
   "publishedAt": "2026-11-23T16:05:49+03:00",
   "addedAt": "2026-11-24T05:01:34.528724+00:00"
+ },
+ {
+  "normalizedUrl": "https://auto.onliner.by/go/1237367",
+  "normalizedTitle": "строительство путепровода на колесникова ратомской что там происходит видео обновлено",
+  "source": "onliner.by",
+  "photoId": "cm:70078737",
+  "publishedAt": "2026-11-24T15:18:35+03:00",
+  "addedAt": "2026-11-24T13:02:35.317746+00:00"
  }
 ]
