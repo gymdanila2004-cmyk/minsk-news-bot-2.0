@@ -1,13 +1,5 @@
 [
  {
-  "normalizedUrl": "https://auto.onliner.by/go/1272001",
-  "normalizedTitle": "в минске водитель каршеринга устроил дтп с тремя автомобилями оказалось он был пьян",
-  "source": "onliner.by",
-  "photoId": "ov:61f58df4-2aae-40d5-afc5-77fbd696631c",
-  "publishedAt": "2026-10-25T16:43:37+03:00",
-  "addedAt": "2026-10-25T18:01:33.335191+00:00"
- },
- {
   "normalizedUrl": "https://auto.onliner.by/go/1271995",
   "normalizedTitle": "не учла погоду и оказалась на встречке в минске легковушка столкнулась с фурой",
   "source": "onliner.by",
@@ -678,5 +670,13 @@
   "photoId": "cm:70078737",
   "publishedAt": "2026-11-24T15:18:35+03:00",
   "addedAt": "2026-11-24T13:02:35.317746+00:00"
+ },
+ {
+  "normalizedUrl": "https://www.belnovosti.by/minsk/v-minskom-metro-zaderzhali-passazhira-s-dvumya-pistoletami",
+  "normalizedTitle": "в минском метро задержали пассажира с двумя пистолетами",
+  "source": "belnovosti.by",
+  "photoId": "ov:318d7704-484c-4884-a74a-521a6c174f94",
+  "publishedAt": "2026-11-24T20:00:00+03:00",
+  "addedAt": "2026-11-24T18:01:42.242252+00:00"
  }
 ]
