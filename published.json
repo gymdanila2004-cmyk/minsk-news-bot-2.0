@@ -1,13 +1,5 @@
 [
  {
-  "normalizedUrl": "https://www.belnovosti.by/minsk/27-letniy-voditel-hyundai-ustroil-massovuyu-avariyu-na-knorina-v-minske",
-  "normalizedTitle": "27 летний водитель hyundai устроил массовую аварию на кнорина в минске",
-  "source": "belnovosti.by",
-  "photoId": "cm:132162731",
-  "publishedAt": "2026-10-26T14:30:00+03:00",
-  "addedAt": "2026-10-26T13:01:58.401004+00:00"
- },
- {
   "normalizedUrl": "https://auto.onliner.by/go/1272156",
   "normalizedTitle": "за секунду до необратимых последствий дети на шеринговом самокате чуть не попали под колеса",
   "source": "onliner.by",
@@ -678,5 +670,13 @@
   "photoId": "cm:20053103",
   "publishedAt": "2026-11-24T14:53:22+03:00",
   "addedAt": "2026-11-25T05:01:42.923426+00:00"
+ },
+ {
+  "normalizedUrl": "https://people.onliner.by/go/1344680",
+  "normalizedTitle": "парень избивал девушку во время поездки в такси водитель вызвал милицию обновлено",
+  "source": "onliner.by",
+  "photoId": "cm:54465630",
+  "publishedAt": "2026-11-25T11:03:26+03:00",
+  "addedAt": "2026-11-25T13:02:49.972955+00:00"
  }
 ]
