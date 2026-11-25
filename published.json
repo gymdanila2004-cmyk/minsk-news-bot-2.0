@@ -1,13 +1,5 @@
 [
  {
-  "normalizedUrl": "https://auto.onliner.by/go/1271995",
-  "normalizedTitle": "не учла погоду и оказалась на встречке в минске легковушка столкнулась с фурой",
-  "source": "onliner.by",
-  "photoId": "cm:63978186",
-  "publishedAt": "2026-10-25T13:53:27+03:00",
-  "addedAt": "2026-10-26T05:01:34.771659+00:00"
- },
- {
   "normalizedUrl": "https://www.belnovosti.by/minsk/27-letniy-voditel-hyundai-ustroil-massovuyu-avariyu-na-knorina-v-minske",
   "normalizedTitle": "27 летний водитель hyundai устроил массовую аварию на кнорина в минске",
   "source": "belnovosti.by",
@@ -678,5 +670,13 @@
   "photoId": "ov:318d7704-484c-4884-a74a-521a6c174f94",
   "publishedAt": "2026-11-24T20:00:00+03:00",
   "addedAt": "2026-11-24T18:01:42.242252+00:00"
+ },
+ {
+  "normalizedUrl": "https://realt.onliner.by/go/1144657",
+  "normalizedTitle": "и даже продлят жару в минске появятся две новые зоны отдыха",
+  "source": "onliner.by",
+  "photoId": "cm:20053103",
+  "publishedAt": "2026-11-24T14:53:22+03:00",
+  "addedAt": "2026-11-25T05:01:42.923426+00:00"
  }
 ]
