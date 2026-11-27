@@ -1,13 +1,5 @@
 [
  {
-  "normalizedUrl": "https://auto.onliner.by/go/1272398",
-  "normalizedTitle": "трое погибших в аварии на молодечненской трассе предварительно за рулем была бесправница",
-  "source": "onliner.by",
-  "photoId": "cm:90927582",
-  "publishedAt": "2026-10-28T00:03:17+03:00",
-  "addedAt": "2026-10-28T05:01:44.991877+00:00"
- },
- {
   "normalizedUrl": "https://auto.onliner.by/go/1272501",
   "normalizedTitle": "просто вылез из правой полосы и повернул налево странный маневр на партизанском проспекте видео",
   "source": "onliner.by",
@@ -686,5 +678,13 @@
   "photoId": "cm:63978186",
   "publishedAt": "2026-11-26T21:40:00+03:00",
   "addedAt": "2026-11-27T05:01:42.651903+00:00"
+ },
+ {
+  "normalizedUrl": "https://auto.onliner.by/go/1277108",
+  "normalizedTitle": "на внешнем кольце мкад грузовик столкнулся с peugeot видео",
+  "source": "onliner.by",
+  "photoId": "ov:53e8bf28-aea4-44ad-9951-d01a9506ab40",
+  "publishedAt": "2026-11-27T14:41:41+03:00",
+  "addedAt": "2026-11-27T13:01:28.445015+00:00"
  }
 ]
