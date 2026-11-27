@@ -1,13 +1,5 @@
 [
  {
-  "normalizedUrl": "https://realt.onliner.by/go/1139179",
-  "normalizedTitle": "эту минскую территорию открыли впервые за 70 лет здесь построят большой жк",
-  "source": "onliner.by",
-  "photoId": "cm:138724265",
-  "publishedAt": "2026-10-27T15:30:08+03:00",
-  "addedAt": "2026-10-27T18:01:35.458435+00:00"
- },
- {
   "normalizedUrl": "https://auto.onliner.by/go/1272398",
   "normalizedTitle": "трое погибших в аварии на молодечненской трассе предварительно за рулем была бесправница",
   "source": "onliner.by",
@@ -686,5 +678,13 @@
   "photoId": "cm:28131684",
   "publishedAt": "2026-11-26T18:58:08+03:00",
   "addedAt": "2026-11-26T18:01:32.081084+00:00"
+ },
+ {
+  "normalizedUrl": "https://www.belnovosti.by/minsk/v-minske-legkovushka-protaranila-avtobus-passazhirku-uvezli-v-bolnicu",
+  "normalizedTitle": "в минске легковушка протаранила автобус пассажирку увезли в больницу",
+  "source": "belnovosti.by",
+  "photoId": "cm:63978186",
+  "publishedAt": "2026-11-26T21:40:00+03:00",
+  "addedAt": "2026-11-27T05:01:42.651903+00:00"
  }
 ]
