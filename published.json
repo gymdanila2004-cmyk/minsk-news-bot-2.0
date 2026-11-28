@@ -1,13 +1,5 @@
 [
  {
-  "normalizedUrl": "https://auto.onliner.by/go/1272541",
-  "normalizedTitle": "на мкад у renault на ходу лопнуло колесо автомобиль врезался в осветительную мачту",
-  "source": "onliner.by",
-  "photoId": "cm:158484559",
-  "publishedAt": "2026-10-28T18:33:06+03:00",
-  "addedAt": "2026-10-28T18:02:21.332890+00:00"
- },
- {
   "normalizedUrl": "https://auto.onliner.by/go/1272510",
   "normalizedTitle": "заняла два места попала в черный список парковки тц законно ли это",
   "source": "onliner.by",
@@ -686,5 +678,13 @@
   "photoId": "cm:90927582",
   "publishedAt": "2026-11-27T18:06:55+03:00",
   "addedAt": "2026-11-27T18:01:38.825207+00:00"
+ },
+ {
+  "normalizedUrl": "https://www.belnovosti.by/minsk/v-minske-na-stroyke-pogib-mashinist-avtokrana",
+  "normalizedTitle": "в минске на стройке погиб машинист автокрана",
+  "source": "belnovosti.by",
+  "photoId": "cm:142088948",
+  "publishedAt": "2026-11-27T21:40:00+03:00",
+  "addedAt": "2026-11-28T05:01:28.222063+00:00"
  }
 ]
